@@ -15,7 +15,7 @@ public class CameraAroundPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetMouseButton(0))
+		if (Input.GetKey(KeyCode.LeftAlt) && Input.GetMouseButton(0))
 		{
 			transform.RotateAround(target.position, Vector3.up, Input.GetAxis("Mouse X") * Time.deltaTime * sensitivity);
 			transform.RotateAround(target.position, transform.right, -Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivity);
