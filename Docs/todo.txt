@@ -1,4 +1,3 @@
-- fix camera -> has to follow target, target at the center of the screen
-- select which type of brick to add on structure (UI)
-- test Reactor Instanciation
-- add Reactor to controller and use it
+- Reactor Instanciation -> set direction = hit.normal
+- add Reactor to controller and use it (add force)
++ doc

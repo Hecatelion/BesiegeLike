@@ -5,11 +5,14 @@ using UnityEngine;
 public class Editor : MonoBehaviour
 {
 	[SerializeField] GameObject vehicule;
-	[SerializeField] GameObject brick;
+	[SerializeField] GameObject neutralBrick;
+	[SerializeField] GameObject reactorBrick;
+
+	public GameObject currentBrick;
 
     void Start()
     {
-        
+		currentBrick = neutralBrick;
     }
 
     void Update()
@@ -33,11 +36,13 @@ public class Editor : MonoBehaviour
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		Physics.Raycast(ray, out hit);
+		Physics.Raycast(ray, out hit, LayerMask.GetMask("Bricks"));
 
 		if (hit.transform)
 		{
-			GameObject tempBrick = Instantiate(brick, vehicule.transform);
+			Debug.Log(hit.transform.gameObject.name);
+			GameObject tempBrick = Instantiate(currentBrick, vehicule.transform);
+			
 			tempBrick.transform.position = hit.transform.position + hit.normal * 0.5f;
 		}
 	}
@@ -54,5 +59,15 @@ public class Editor : MonoBehaviour
 		{
 			hit.transform.GetComponent<ReactorBrick>().SetDirection(-hit.normal); 
 		}
+	}
+
+	// UI functions
+	public void SelectNeutralBrick()
+	{
+		currentBrick = neutralBrick;
+	}
+	public void SelectReactorBrick()
+	{
+		currentBrick = reactorBrick;
 	}
 }
