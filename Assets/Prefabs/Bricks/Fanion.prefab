@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7598382242458787990}
   - component: {fileID: 7598382242458787989}
   m_Layer: 0
-  m_Name: Fanion (Missing Prefab)
-  m_TagString: Untagged
+  m_Name: Fanion
+  m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

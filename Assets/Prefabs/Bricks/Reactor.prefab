@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1859025644514016280}
   m_Layer: 0
   m_Name: Reactor
-  m_TagString: Untagged
+  m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fanion
+      objectReference: {fileID: 0}
+    - target: {fileID: 653654705670012103, guid: 2bd5dcddfec2dc6469e0e02199d7e8ed,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3366718193478061924, guid: 2bd5dcddfec2dc6469e0e02199d7e8ed,
         type: 3}

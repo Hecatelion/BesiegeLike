@@ -1250,6 +1250,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: Editor
       objectReference: {fileID: 0}
+    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
+        type: 3}
+      propertyPath: vehicule
+      value: 
+      objectReference: {fileID: 1693610946}
+    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
+        type: 3}
+      propertyPath: reactorBrick
+      value: 
+      objectReference: {fileID: 8307447178104189611, guid: f644c21c38021fe4ab7a6d01cfd1364e,
+        type: 3}
+    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
+        type: 3}
+      propertyPath: neutralBrick
+      value: 
+      objectReference: {fileID: 2764164236304069303, guid: 9bce5dad59b806241b3acd4faf71542e,
+        type: 3}
+    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
+        type: 3}
+      propertyPath: currentBrickType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8261186751267293761, guid: f3f37735a6b1541488de256a567528c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1305,22 +1327,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
-        type: 3}
-      propertyPath: vehicule
-      value: 
-      objectReference: {fileID: 1693610946}
-    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
-        type: 3}
-      propertyPath: reactorBrick
-      value: 
-      objectReference: {fileID: 8307447178104189611, guid: f644c21c38021fe4ab7a6d01cfd1364e,
-        type: 3}
-    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
-        type: 3}
-      propertyPath: neutralBrick
-      value: 
-      objectReference: {fileID: 2764164236304069303, guid: 9bce5dad59b806241b3acd4faf71542e,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f37735a6b1541488de256a567528c9, type: 3}

@@ -1,3 +1,2 @@
-- Reactor Instanciation -> set direction = hit.normal
-- add Reactor to controller and use it (add force)
+- test reactor by foreach reactor => AddForceOnPoint(vec3);
 + doc

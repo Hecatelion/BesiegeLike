@@ -8,11 +8,11 @@ public class Editor : MonoBehaviour
 	[SerializeField] GameObject neutralBrick;
 	[SerializeField] GameObject reactorBrick;
 
-	public GameObject currentBrick;
+	public BrickTypes currentBrickType;
 
     void Start()
     {
-		currentBrick = neutralBrick;
+		currentBrickType = BrickTypes.Neutral;
     }
 
     void Update()
@@ -38,13 +38,31 @@ public class Editor : MonoBehaviour
 
 		Physics.Raycast(ray, out hit, LayerMask.GetMask("Bricks"));
 
-		if (hit.transform)
+		if (hit.transform && hit.transform.tag == "Brick")
 		{
 			Debug.Log(hit.transform.gameObject.name);
-			GameObject tempBrick = Instantiate(currentBrick, vehicule.transform);
-			
-			tempBrick.transform.position = hit.transform.position + hit.normal * 0.5f;
+
+			switch (currentBrickType)
+			{
+				case BrickTypes.Neutral:	AddNeutralBrick(hit);	break;
+				case BrickTypes.Reactor:    AddReactorBrick(hit);	break;
+			}
 		}
+	}
+
+	void AddNeutralBrick(RaycastHit _hit)
+	{
+		GameObject tempBrick = Instantiate(neutralBrick, vehicule.transform);
+		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+	}
+
+	void AddReactorBrick(RaycastHit _hit)
+	{
+		GameObject tempBrick = Instantiate(reactorBrick, vehicule.transform);
+		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+
+		tempBrick.GetComponent<ReactorBrick>().SetDirection(-_hit.normal);
+		tempBrick.GetComponent<ReactorBrick>().SetVehicule(vehicule.GetComponent<Rigidbody>());
 	}
 
 
@@ -61,13 +79,13 @@ public class Editor : MonoBehaviour
 		}
 	}
 
-	// UI functions
+	// UI Brick type selection
 	public void SelectNeutralBrick()
 	{
-		currentBrick = neutralBrick;
+		currentBrickType = BrickTypes.Neutral;
 	}
 	public void SelectReactorBrick()
 	{
-		currentBrick = reactorBrick;
+		currentBrickType = BrickTypes.Reactor;
 	}
 }
