@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vehicule : MonoBehaviour
+public class Vehicle : MonoBehaviour
 {
 	public List<ReactorBrick> reactors;
+	Rigidbody rb;
 
-    void Start()
+	void Start()
     {
 		reactors = new List<ReactorBrick>();
-    }
+		rb = GetComponent<Rigidbody>();
+	}
 
     void Update()
-    {
-        
-    }
+    { }
+
+	public void GazOn()
+	{
+		foreach (var r in reactors)
+		{
+			r.Use();
+		}
+	}
 }

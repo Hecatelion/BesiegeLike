@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ReactorBrick : MonoBehaviour
 {
-	Rigidbody rbVehicule;
+	Rigidbody rbVehicle;
+	[SerializeField] float power = 10.0f;
 
 	void Start()
 	{ }
@@ -18,8 +19,13 @@ public class ReactorBrick : MonoBehaviour
 		transform.forward = _dir;
 	}
 
-	public void SetVehicule(Rigidbody _rb)
+	public void SetVehicle(Rigidbody _rb)
 	{
-		rbVehicule = _rb;
+		rbVehicle = _rb;
+	}
+
+	public void Use()
+	{
+		rbVehicle.AddForceAtPosition(transform.forward * power, transform.position);
 	}
 }

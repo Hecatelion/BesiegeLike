@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8307447178104189610}
   - component: {fileID: 6131003880882208798}
   - component: {fileID: 1859025644514016280}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reactor
   m_TagString: Brick
   m_Icon: {fileID: 0}
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ffa227cbe2d734885f46f6b765b243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  power: 10
 --- !u!54 &1859025644514016280
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -139,6 +140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 653654705670012103, guid: 2bd5dcddfec2dc6469e0e02199d7e8ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3366718193478061924, guid: 2bd5dcddfec2dc6469e0e02199d7e8ed,
         type: 3}

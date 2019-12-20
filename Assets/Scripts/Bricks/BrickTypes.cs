@@ -6,5 +6,6 @@ public enum BrickTypes
 {
     Core, 
 	Neutral,
-	Reactor
+	Reactor,
+	Circuit
 }

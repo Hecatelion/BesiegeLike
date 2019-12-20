@@ -1,2 +1,2 @@
-- test reactor by foreach reactor => AddForceOnPoint(vec3);
-+ doc
+- improve electrity (cf: doc)
+- parent camera

@@ -28,5 +28,7 @@ public class CameraAroundPoint : MonoBehaviour
 			transform.RotateAround(target.position, Vector3.up, Input.GetAxis("Mouse X") * Time.deltaTime * sensitivity);
 			transform.RotateAround(target.position, transform.right, -Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivity);
 		}
+
+		transform.LookAt(target);
 	}
 }

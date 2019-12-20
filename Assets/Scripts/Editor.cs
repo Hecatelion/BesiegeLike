@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Editor : MonoBehaviour
 {
-	[SerializeField] GameObject vehicule;
-	[SerializeField] GameObject neutralBrick;
-	[SerializeField] GameObject reactorBrick;
+	[SerializeField] GameObject vehiculeGO;
+	[SerializeField] GameObject neutralBrickGO;
+	[SerializeField] GameObject reactorBrickGO;
+	[SerializeField] GameObject circuitBrickGO;
 
 	public BrickTypes currentBrickType;
 
@@ -21,7 +22,7 @@ public class Editor : MonoBehaviour
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				AddBrick();
+				AddBrick(); 
 			}
 
 			if (Input.GetMouseButtonDown(1))
@@ -35,36 +36,60 @@ public class Editor : MonoBehaviour
 	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		int layer = 1 << 8;
+		Physics.Raycast(ray, out hit, Mathf.Infinity, layer);
 
-		Physics.Raycast(ray, out hit, LayerMask.GetMask("Bricks"));
+		//Debug.Log(hit.transform.gameObject.name);
 
 		if (hit.transform && hit.transform.tag == "Brick")
 		{
-			Debug.Log(hit.transform.gameObject.name);
 
 			switch (currentBrickType)
 			{
 				case BrickTypes.Neutral:	AddNeutralBrick(hit);	break;
 				case BrickTypes.Reactor:    AddReactorBrick(hit);	break;
+				case BrickTypes.Circuit:    AddCircuitBrick(hit);	break;
 			}
+		}
+		else
+		{
+			Debug.Log("no brick found");
 		}
 	}
 
 	void AddNeutralBrick(RaycastHit _hit)
 	{
-		GameObject tempBrick = Instantiate(neutralBrick, vehicule.transform);
-		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+		// Instantiate a neutral brick, ignoring variable the returned
+		_ = InstantiateBrick(neutralBrickGO, vehiculeGO.transform, _hit);
 	}
 
 	void AddReactorBrick(RaycastHit _hit)
 	{
-		GameObject tempBrick = Instantiate(reactorBrick, vehicule.transform);
-		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+		// Instantiate a reactor brick
+		GameObject tempBrick = InstantiateBrick(reactorBrickGO, vehiculeGO.transform, _hit);
 
-		tempBrick.GetComponent<ReactorBrick>().SetDirection(-_hit.normal);
-		tempBrick.GetComponent<ReactorBrick>().SetVehicule(vehicule.GetComponent<Rigidbody>());
+		ReactorBrick reactorBrick = tempBrick.GetComponent<ReactorBrick>();
+
+		// make reactor's muzzle point at the opposite of the brick it is built on
+		reactorBrick.SetDirection(-_hit.normal);
+
+		// link reactors to vehicle, in order to make reactors move vehicle
+		reactorBrick.SetVehicle(vehiculeGO.GetComponent<Rigidbody>());
+		vehiculeGO.GetComponent<Vehicle>().reactors.Add(reactorBrick);
 	}
 
+	void AddCircuitBrick(RaycastHit _hit)
+	{
+		_ = InstantiateBrick(circuitBrickGO, vehiculeGO.transform, _hit);
+	}
+
+	GameObject InstantiateBrick(GameObject _objectToInstanciate, Transform _parent, RaycastHit _hit)
+	{
+		GameObject tempBrick = Instantiate(_objectToInstanciate, _parent);
+		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+
+		return tempBrick;
+ }
 
 	void InteractWithBrick()
 	{
@@ -87,5 +112,9 @@ public class Editor : MonoBehaviour
 	public void SelectReactorBrick()
 	{
 		currentBrickType = BrickTypes.Reactor;
+	}
+	public void SelectCircuitBrick()
+	{
+		currentBrickType = BrickTypes.Circuit;
 	}
 }
