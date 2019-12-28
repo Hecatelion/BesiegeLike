@@ -53,7 +53,7 @@ public class Editor : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("no brick found");
+			//Debug.Log("no brick found");
 		}
 	}
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6301201572513399039}
   - component: {fileID: -2802060594987666939}
   - component: {fileID: 6301201572513399036}
-  - component: {fileID: 8366113843098027000}
+  - component: {fileID: -1962427064223655573}
   m_Layer: 8
   m_Name: Circuit
   m_TagString: Brick
@@ -110,7 +110,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8366113843098027000
+--- !u!114 &-1962427064223655573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,9 +119,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6301201572513399037}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb5e6a084f5a3964bb2118e4ef2aba85, type: 3}
+  m_Script: {fileID: 11500000, guid: 232249d18e9978c45bb2fac3824a8f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conductiveWiresGO: {fileID: 8982494678981355772, guid: 92d379a17b91f4f4e91bc949c8a42e7f,
-    type: 3}
-  isConducting: 0

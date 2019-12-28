@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: bb5e6a084f5a3964bb2118e4ef2aba85
+guid: 0ac4216bd609105459636cb3334efdcb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - conductiveWiresGO: {fileID: 8982494678981355772, guid: 92d379a17b91f4f4e91bc949c8a42e7f,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

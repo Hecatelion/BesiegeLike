@@ -1,1 +1,2 @@
 - improve electrity (cf: doc)
+	- circuit bricks can connect but can't disconnect
