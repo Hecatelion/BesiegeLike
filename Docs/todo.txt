@@ -1,6 +1,3 @@
-- improve electrity (cf: doc)
-	- must try "Emitter propagates power through Circuits each frame" method 
-		- make CoreBrick      inherit from Emitter
-		- make CircuitBrick   inherit from Conducter
-		- test Electricity propagation and circuit destruction
-		- make ReactorBrick   inherit from Receiver
+- planning and roadmap
+- make ReactorBrick   inherit from Receiver
+- brick destruction

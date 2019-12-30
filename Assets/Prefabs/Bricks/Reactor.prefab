@@ -109,6 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ffa227cbe2d734885f46f6b765b243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conductiveWiresGO: {fileID: 0}
+  wires: {fileID: 0}
   power: 10
 --- !u!54 &1859025644514016280
 Rigidbody:
@@ -152,9 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91aa15d70baa7814a95072b856bfcff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOn: 0
-  matOn: {fileID: 2100000, guid: e16265ac67a747b419f573b827b872fa, type: 2}
-  matOff: {fileID: 2100000, guid: 83d49346e5fdd6d4a8b2c80758b1baac, type: 2}
+  isON: 0
+  matOFF: {fileID: 2100000, guid: 83d49346e5fdd6d4a8b2c80758b1baac, type: 2}
+  matON: {fileID: 2100000, guid: e16265ac67a747b419f573b827b872fa, type: 2}
 --- !u!1001 &425854769241627869
 PrefabInstance:
   m_ObjectHideFlags: 0
