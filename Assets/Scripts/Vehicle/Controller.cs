@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
     {
 		if (Input.GetKey(KeyCode.Space))
 		{
-			vehicule.GazOn();
+			vehicule.GazON();
 		}
     }
 }

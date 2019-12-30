@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -2802060594987666939}
   - component: {fileID: 6301201572513399036}
   - component: {fileID: 6764938318598577515}
+  - component: {fileID: -2806231429964098792}
   m_Layer: 8
   m_Name: Core
   m_TagString: Brick
@@ -122,3 +123,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65a3afa74eabb9498be028d07f89808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2806231429964098792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6301201572513399037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1a71d2aed1db843af44619c084a5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conductiveWiresGO: {fileID: 0}
+  wires: {fileID: 0}

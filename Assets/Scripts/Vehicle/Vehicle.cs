@@ -16,7 +16,7 @@ public class Vehicle : MonoBehaviour
     void Update()
     { }
 
-	public void GazOn()
+	public void GazON()
 	{
 		foreach (var r in reactors)
 		{

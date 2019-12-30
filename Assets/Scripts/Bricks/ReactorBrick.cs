@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorBrick : MonoBehaviour
+public class ReactorBrick : Brick
 {
 	Rigidbody rbVehicle;
 	[SerializeField] float power = 10.0f;
 
-	void Start()
-	{ }
+	protected override void Start()
+	{
+		base.Start();
+	}
 	
     void Update()
     { }

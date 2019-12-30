@@ -5,32 +5,39 @@ using UnityEditor;
 
 public class Receiver : MonoBehaviour
 {
-	public GameObject conductiveWiresGO;
+	[SerializeField] bool pointBreak = false;
 	public bool isReceivingPower = false;
 
-	ConductiveWires wires;
+	Brick brick;
 
 	private void Start()
 	{
-		// find wire GO
-		conductiveWiresGO = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bricks/ConductiveWires.prefab", typeof(GameObject));
-
-		// Instantiate Conductive Wires Object and store its script
-		GameObject temp = Instantiate(conductiveWiresGO, transform);
-		wires = temp.GetComponent<ConductiveWires>();
-
-		// test connectivity when Conductive Wires are colliding with another brick
-		wires.ProcessTriggering += TestConductivity;
+		brick = GetComponent<Brick>();
 	}
 
-	public void TestConductivity(Collider _other)
+	private void Update()
 	{
-		Emitter otherEmitter = _other.GetComponent<Emitter>();
-
-		// if brick is colliding with another conductive brick which is electrically charged, then conducts electricity
-		if (otherEmitter != null && otherEmitter.isEmittingPower)
+		if (pointBreak)
 		{
-			isReceivingPower = true;
+			int i = 0;
+		}
+		List<Brick> bricks = brick.GetConnectedBricks();
+		TestPowerReceiving(bricks); // must merge l.24 & l.25
+	}
+
+	protected void TestPowerReceiving(List<Brick> _connectedBricks)
+	{
+		isReceivingPower = false;
+
+		foreach (var b in _connectedBricks)
+		{
+			Emitter otherEmitter = b.GetComponent<Emitter>();
+
+			// if brick is colliding with another conductive brick which is electrically charged, then conducts electricity
+			if (otherEmitter != null && otherEmitter.isEmittingPower)
+			{
+				isReceivingPower = true;
+			}
 		}
 	}
 }

@@ -1,2 +1,2 @@
 - improve electrity (cf: doc)
-	- circuit bricks can connect but can't disconnect
+	- must try "Emitter propagates power through Circuits each frame" method 

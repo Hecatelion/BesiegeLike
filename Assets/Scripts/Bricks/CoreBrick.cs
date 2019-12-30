@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // always emits eletric power
-public class CoreBrick : MonoBehaviour
+public class CoreBrick : Brick
 {
-    void Start()
+    protected override void Start()
     {
+		base.Start();
+
 		gameObject.AddComponent<Emitter>().isEmittingPower = true;
     }
 }
