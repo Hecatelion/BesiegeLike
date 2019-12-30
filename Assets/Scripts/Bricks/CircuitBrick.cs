@@ -5,25 +5,39 @@ using UnityEngine;
 // conducts electric power if it's connected to an emitter
 public class CircuitBrick : Brick
 {
-	Emitter emitter;
-	Receiver receiver;
+	//Emitter emitter;
+	//Receiver receiver;
 	Activable activable;
+	public bool isConductingPower = false;
 	
     protected override void Start()
     {
 		base.Start();
 
-		emitter = gameObject.AddComponent<Emitter>();
-		receiver = gameObject.AddComponent<Receiver>();
+		//emitter = gameObject.AddComponent<Emitter>();
+		//receiver = gameObject.AddComponent<Receiver>();
 		activable = GetComponent<Activable>();
     }
 	
     void Update()
     {
-		TestConductivity();
-    }
+		//TestConductivity();
+		isConductingPower = false;
+	}
 
-	void TestConductivity()
+	public void SetON()
+	{
+		isConductingPower = true;
+		activable.SetON();
+	}
+
+	public void SetOFF()
+	{
+		isConductingPower = false;
+		activable.SetOFF();
+	}
+
+	/*void TestConductivity()
 	{
 		// detects if this circuit has to switch ON/OFF
 		if (receiver.isReceivingPower != emitter.isEmittingPower)
@@ -41,5 +55,5 @@ public class CircuitBrick : Brick
 				activable.SetOFF();
 			}
 		}
-	}
+	}*/
 }

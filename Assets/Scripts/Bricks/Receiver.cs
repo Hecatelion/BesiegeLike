@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class Receiver : MonoBehaviour
+public class Receiver : Brick
 {
 	[SerializeField] bool pointBreak = false;
 	public bool isReceivingPower = false;
 
 	Brick brick;
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		brick = GetComponent<Brick>();
 	}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class Brick : MonoBehaviour
 {
@@ -32,5 +33,12 @@ public class Brick : MonoBehaviour
 		}
 
 		return connectedBricks;
+	}
+
+	public List<CircuitBrick> GetConnectedCircuits()
+	{
+		return (from brick in GetConnectedBricks()
+				where brick is CircuitBrick
+				select brick).ToList().Cast<CircuitBrick>().ToList();
 	}
 }
