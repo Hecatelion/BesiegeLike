@@ -3,43 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class Receiver : Brick
+public class Receiver : Brick, IActivable
 {
 	[SerializeField] bool pointBreak = false;
 	public bool isReceivingPower = false;
 
 	Brick brick;
+	ActivableGraphics activableGraph;
 
 	protected override void Start()
 	{
 		base.Start();
 
 		brick = GetComponent<Brick>();
+		activableGraph = GetComponent<ActivableGraphics>();
 	}
 
-	private void Update()
+	virtual protected void Update()
 	{
-		if (pointBreak)
-		{
-			int i = 0;
-		}
-		List<Brick> bricks = brick.GetConnectedBricks();
-		TestPowerReceiving(bricks); // must merge l.24 & l.25
+		TestPowerReceiving();
 	}
 
-	protected void TestPowerReceiving(List<Brick> _connectedBricks)
+	protected void TestPowerReceiving()
 	{
 		isReceivingPower = false;
 
-		foreach (var b in _connectedBricks)
+		List<Conductor> conductors = brick.GetConnected<Conductor>();
+		foreach (var c in conductors)
 		{
-			Emitter otherEmitter = b.GetComponent<Emitter>();
-
-			// if brick is colliding with another conductive brick which is electrically charged, then conducts electricity
-			if (otherEmitter != null && otherEmitter.isEmittingPower)
+			// if this receiver is colliding with a powered conductor, then switch ON
+			if (c.isConductingPower)
 			{
-				isReceivingPower = true;
+				SetON();
+				return;
 			}
 		}
+
+		// if isnt connected to any conductor ON, then switch OFF
+		SetOFF();
+	}
+
+	// IActivable implentation
+	public void SetON()
+	{
+		isReceivingPower = true;
+		activableGraph.SetON();
+	}
+
+	public void SetOFF()
+	{
+		isReceivingPower = false;
+		activableGraph.SetOFF();
 	}
 }

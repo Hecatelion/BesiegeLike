@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Activable : MonoBehaviour
+public class ActivableGraphics : MonoBehaviour
 {
 	public bool isON = false;
 	[SerializeField] Material matOFF;

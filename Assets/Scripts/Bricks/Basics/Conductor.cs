@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // conducts electric power, is set ON by Emitters
-public class Conductor : Brick
+public class Conductor : Brick, IActivable
 {
-	Activable activable;
+	ActivableGraphics activableGraph;
 	public bool isConductingPower = false;
 
 	// used to switch OFF if not electrically powered for some frames
@@ -16,7 +16,7 @@ public class Conductor : Brick
 	{
 		base.Start();
 
-		activable = GetComponent<Activable>();
+		activableGraph = GetComponent<ActivableGraphics>();
 		nbFrameLeft = nbFrameBeforeOFF;
 	}
 
@@ -33,23 +33,24 @@ public class Conductor : Brick
 		}
 	}
 
-	protected void SetON()
-	{
-		isConductingPower = true;
-		activable.SetON();
-	}
-
-	protected void SetOFF()
-	{
-		isConductingPower = false;
-		activable.SetOFF();
-	}
-
 	public void GivePower()
 	{
 		SetON();
 
 		// reinits timer
 		nbFrameLeft = nbFrameBeforeOFF;
+	}
+
+	// IActivable implentation
+	public void SetON()
+	{
+		isConductingPower = true;
+		activableGraph.SetON();
+	}
+
+	public void SetOFF()
+	{
+		isConductingPower = false;
+		activableGraph.SetOFF();
 	}
 }

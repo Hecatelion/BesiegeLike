@@ -22,8 +22,8 @@ public class Emitter : Brick
 		// from emitter, finds all linked circuit and give them power step by step, 
 		// stops when all encountered circuits are ON
 
-		List<CircuitBrick> circuitsToTest = GetConnectedCircuits();
-		CircuitBrick testedCircuit = null;
+		List<Conductor> circuitsToTest = GetConnected<Conductor>();
+		Conductor testedCircuit = null;
 		int i = 0;
 
 		// foreach (var testedCircuit in circuitsToTest) 
@@ -36,7 +36,7 @@ public class Emitter : Brick
 			testedCircuit.GivePower();
 
 			// find circuits connected to currently tested circuit
-			List<CircuitBrick> connectedCircuits = testedCircuit.GetConnectedCircuits();
+			List<Conductor> connectedCircuits = testedCircuit.GetConnected<Conductor>();
 
 			// add those which are not in circuitsToTest yet
 			foreach (var connectedCircuit in connectedCircuits)

@@ -35,10 +35,10 @@ public class Brick : MonoBehaviour
 		return connectedBricks;
 	}
 
-	public List<CircuitBrick> GetConnectedCircuits()
+	public List<T> GetConnected<T>() where T : Brick
 	{
 		return (from brick in GetConnectedBricks()
-				where brick is CircuitBrick
-				select brick).ToList().Cast<CircuitBrick>().ToList();
+				where brick is T
+				select brick).ToList().Cast<T>().ToList();
 	}
 }

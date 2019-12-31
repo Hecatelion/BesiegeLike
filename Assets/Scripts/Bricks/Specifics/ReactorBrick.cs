@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorBrick : Brick
+public class ReactorBrick : Receiver
 {
 	Rigidbody rbVehicle;
 	[SerializeField] float power = 10.0f;
@@ -11,9 +11,16 @@ public class ReactorBrick : Brick
 	{
 		base.Start();
 	}
-	
-    void Update()
-    { }
+
+	protected override void Update()
+    {
+		base.Update();
+
+		if (isReceivingPower)
+		{
+			Use();
+		}
+	}
 
 	// direction in which the ship will go
 	public void SetDirection(Vector3 _dir)
