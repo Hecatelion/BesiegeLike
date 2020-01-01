@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8307447178104189610}
   - component: {fileID: 6131003880882208798}
   - component: {fileID: 1859025644514016280}
-  - component: {fileID: -7858880752579683087}
   - component: {fileID: -8932223366472055744}
   m_Layer: 8
   m_Name: Reactor
@@ -111,6 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conductiveWiresGO: {fileID: 0}
   wires: {fileID: 0}
+  pointBreak: 0
+  isReceivingPower: 0
   power: 10
 --- !u!54 &1859025644514016280
 Rigidbody:
@@ -128,20 +129,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-7858880752579683087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8307447178104189611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b1a71d2aed1db843af44619c084a5b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  conductiveWiresGO: {fileID: 0}
-  wires: {fileID: 0}
 --- !u!114 &-8932223366472055744
 MonoBehaviour:
   m_ObjectHideFlags: 0

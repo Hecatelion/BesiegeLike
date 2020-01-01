@@ -8,12 +8,15 @@ public class Editor : MonoBehaviour
 	[SerializeField] GameObject neutralBrickGO;
 	[SerializeField] GameObject reactorBrickGO;
 	[SerializeField] GameObject circuitBrickGO;
+	[SerializeField] GameObject switchBrickGO;
 
-	public BrickTypes currentBrickType;
+	public BrickType currentBrickType;
+	int layerBrick = 0;
 
     void Start()
     {
-		currentBrickType = BrickTypes.Neutral;
+		currentBrickType = BrickType.Neutral;
+		layerBrick = LayerMask.GetMask("Bricks");
     }
 
     void Update()
@@ -22,38 +25,44 @@ public class Editor : MonoBehaviour
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				AddBrick(); 
+				RaycastHit hit;
+
+				if (LookForBrick(out hit))
+				{
+					AddBrick(hit);
+				}
 			}
 
 			if (Input.GetMouseButtonDown(1))
 			{
-				InteractWithBrick();
+				RaycastHit hit;
+
+				if (LookForBrick(out hit))
+				{
+					InteractWithBrick(hit);
+				}
 			}
 		}
     }
 
-	void AddBrick()
+	// raycasting to find a brick and return if succeed
+	bool LookForBrick(out RaycastHit _hit)
 	{
-		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		int layer = 1 << 8;
-		Physics.Raycast(ray, out hit, Mathf.Infinity, layer);
+		Physics.Raycast(ray, out _hit, float.MaxValue, layerBrick); // using layerBrick to ignore wires' colliders
 
-		//Debug.Log(hit.transform.gameObject.name);
+		return _hit.transform && _hit.transform.GetComponent<Brick>() != null;
+	}
 
-		if (hit.transform && hit.transform.tag == "Brick")
+	// bricks instantiations
+	void AddBrick(RaycastHit _hit)
+	{
+		switch (currentBrickType)
 		{
-
-			switch (currentBrickType)
-			{
-				case BrickTypes.Neutral:	AddNeutralBrick(hit);	break;
-				case BrickTypes.Reactor:    AddReactorBrick(hit);	break;
-				case BrickTypes.Circuit:    AddCircuitBrick(hit);	break;
-			}
-		}
-		else
-		{
-			//Debug.Log("no brick found");
+			case BrickType.Neutral:		AddNeutralBrick(_hit);		break;
+			case BrickType.Reactor:		AddReactorBrick(_hit);		break;
+			case BrickType.Circuit:		AddCircuitBrick(_hit);		break;
+			case BrickType.Switch:		AddSwitchBrick(_hit);		break;
 		}
 	}
 
@@ -75,12 +84,18 @@ public class Editor : MonoBehaviour
 
 		// link reactors to vehicle, in order to make reactors move vehicle
 		reactorBrick.SetVehicle(vehiculeGO.GetComponent<Rigidbody>());
-		vehiculeGO.GetComponent<Vehicle>().reactors.Add(reactorBrick);
 	}
 
 	void AddCircuitBrick(RaycastHit _hit)
 	{
 		_ = InstantiateBrick(circuitBrickGO, vehiculeGO.transform, _hit);
+	}
+
+	void AddSwitchBrick(RaycastHit _hit)
+	{
+		// Instantiate a switch brick and link it to vehicle
+		IControllable controllable = InstantiateBrick(switchBrickGO, vehiculeGO.transform, _hit).GetComponent<IControllable>();
+		vehiculeGO.GetComponent<Vehicle>().controllables.Add(controllable);
 	}
 
 	GameObject InstantiateBrick(GameObject _objectToInstanciate, Transform _parent, RaycastHit _hit)
@@ -89,32 +104,22 @@ public class Editor : MonoBehaviour
 		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
 
 		return tempBrick;
- }
+	}
 
-	void InteractWithBrick()
+	// bricks interactions
+	void InteractWithBrick(RaycastHit _hit)
 	{
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		Physics.Raycast(ray, out hit);
-
-		if (hit.transform)
+		IInteractible interactible = _hit.transform.GetComponent<IInteractible>();
+		
+		if (interactible != null)
 		{
-			hit.transform.GetComponent<ReactorBrick>().SetDirection(-hit.normal); 
+			interactible.Interact(_hit);
 		}
 	}
 
 	// UI Brick type selection
-	public void SelectNeutralBrick()
+	public void UI_SelectThisBrickType(UIButtonBrickType _script)
 	{
-		currentBrickType = BrickTypes.Neutral;
-	}
-	public void SelectReactorBrick()
-	{
-		currentBrickType = BrickTypes.Reactor;
-	}
-	public void SelectCircuitBrick()
-	{
-		currentBrickType = BrickTypes.Circuit;
+		currentBrickType = _script.brickType;
 	}
 }

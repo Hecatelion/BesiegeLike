@@ -8,7 +8,5 @@ public class CircuitBrick : Conductor
 	protected override void Start()
 	{
 		base.Start();
-
-		isConductingPower = false;
 	}
 }

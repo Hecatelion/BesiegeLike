@@ -1,1 +1,4 @@
 - switches
+	- SwitchBrick().Interract() { // change binding }
+	- boundKeys -> KeyCode (!int)
+	- Bricks.AddBrick() -> not in editor anymore?

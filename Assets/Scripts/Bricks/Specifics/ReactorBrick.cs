@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorBrick : Receiver
+public class ReactorBrick : Receiver, IInteractible
 {
 	Rigidbody rbVehicle;
 	[SerializeField] float power = 10.0f;
@@ -36,5 +36,11 @@ public class ReactorBrick : Receiver
 	public void Use()
 	{
 		rbVehicle.AddForceAtPosition(transform.forward * power, transform.position);
+	}
+
+	// IInteraactible interface implementation
+	public void Interact(RaycastHit _hit)
+	{
+		SetDirection(-_hit.normal);
 	}
 }

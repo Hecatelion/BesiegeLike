@@ -5,8 +5,9 @@ using UnityEngine;
 // conducts electric power, is set ON by Emitters
 public class Conductor : Brick, IActivable
 {
-	ActivableGraphics activableGraph;
-	public bool isConductingPower = false;
+	GraphicsActivable activableGraph;
+	public bool isUsable;
+	public bool isConductingPower;
 
 	// used to switch OFF if not electrically powered for some frames
 	int nbFrameBeforeOFF = 2;	// from 1 to inf, can't be 0
@@ -16,20 +17,27 @@ public class Conductor : Brick, IActivable
 	{
 		base.Start();
 
-		activableGraph = GetComponent<ActivableGraphics>();
+		activableGraph = GetComponent<GraphicsActivable>();
 		nbFrameLeft = nbFrameBeforeOFF;
+
+		// init state
+		isUsable = true;
+		SetOFF();
 	}
 
-	void Update()
+	virtual protected void Update()
 	{
-		// if isnt powered for the delay frames allowed, then switch OFF
-		if (nbFrameLeft == 0)
+		if (isUsable)
 		{
-			SetOFF();
-		}
-		else
-		{
-			nbFrameLeft--;
+			// if isnt powered for the delay frames allowed, then switch OFF
+			if (nbFrameLeft == 0)
+			{
+				SetOFF();
+			}
+			else
+			{
+				nbFrameLeft--;
+			}
 		}
 	}
 
@@ -44,8 +52,11 @@ public class Conductor : Brick, IActivable
 	// IActivable implentation
 	public void SetON()
 	{
-		isConductingPower = true;
-		activableGraph.SetON();
+		if (isUsable)
+		{
+			isConductingPower = true;
+			activableGraph.SetON();
+		}
 	}
 
 	public void SetOFF()

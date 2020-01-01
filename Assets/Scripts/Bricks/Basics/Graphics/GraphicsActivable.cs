@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivableGraphics : MonoBehaviour
+public class GraphicsActivable : MonoBehaviour
 {
-	public bool isON = false;
 	[SerializeField] Material matOFF;
 	[SerializeField] Material matON;
 
@@ -18,13 +17,11 @@ public class ActivableGraphics : MonoBehaviour
 
 	public void SetON()
 	{
-		isON = true;
 		GetComponent<MeshRenderer>().material = matON;
 	}
 
 	public void SetOFF()
 	{
-		isON = false;
 		GetComponent<MeshRenderer>().material = matOFF;
 	}
 }

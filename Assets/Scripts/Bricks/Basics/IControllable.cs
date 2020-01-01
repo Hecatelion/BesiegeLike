@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BrickType
+public interface IControllable
 {
-    Core, 
-	Neutral,
-	Reactor,
-	Circuit,
-	Switch
+	void Use();
+	int GetBoundKey();
 }

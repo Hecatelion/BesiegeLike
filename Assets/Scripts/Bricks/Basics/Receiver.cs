@@ -7,16 +7,14 @@ public class Receiver : Brick, IActivable
 {
 	[SerializeField] bool pointBreak = false;
 	public bool isReceivingPower = false;
-
-	Brick brick;
-	ActivableGraphics activableGraph;
+	
+	GraphicsActivable activableGraph;
 
 	protected override void Start()
 	{
 		base.Start();
-
-		brick = GetComponent<Brick>();
-		activableGraph = GetComponent<ActivableGraphics>();
+		
+		activableGraph = GetComponent<GraphicsActivable>();
 	}
 
 	virtual protected void Update()
@@ -28,7 +26,7 @@ public class Receiver : Brick, IActivable
 	{
 		isReceivingPower = false;
 
-		List<Conductor> conductors = brick.GetConnected<Conductor>();
+		List<Conductor> conductors = base.GetConnected<Conductor>();
 		foreach (var c in conductors)
 		{
 			// if this receiver is colliding with a powered conductor, then switch ON

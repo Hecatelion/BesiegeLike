@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BrickType
+public interface IInteractible
 {
-    Core, 
-	Neutral,
-	Reactor,
-	Circuit,
-	Switch
+	void Interact(RaycastHit _hit);
 }
