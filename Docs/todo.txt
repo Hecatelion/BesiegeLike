@@ -1,10 +1,16 @@
 - GameMode (c.f. Editor.DeleteBrick(), Vehicle.ClearNotLinkedBricks(), Brick.Detach())
-	- on play → ClearNotLinkedBricks()  (c.f. Vehicle.cs)
-	- on play → BindControllables()  (c.f. Vehicle.cs)
+	- 2 scenes 
+		- DontDestroyOnLoad(editor.vehicle);
+		- OpenLevel() -> level.vehicle = editor.vehicle;
+			      -> level.controller.vehicle = level.vehicle; 
+		- OpenEditor() -> Destroylevel.vehicle 
 	- change skybox
 	- 1st goal (reach area)
+	- on play → ClearNotLinkedBricks()  (c.f. Vehicle.cs)
+	- on play → BindControllables()  (c.f. Vehicle.cs)
 
-
+/!\ ClearNotLinkedBricks in editor but when call destroy(go),
+go is still alive till the end of frame, has to test if go is about to be destroy
 
 [KNOWN BUGS]
 

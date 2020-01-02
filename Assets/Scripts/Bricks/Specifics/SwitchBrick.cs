@@ -49,7 +49,7 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 		// if player press an autorized key, then bind key and stop
 		if (curEvent.isKey)
 		{
-			if (!Controller.forbiddenKeys.Contains(curEvent.keyCode))
+			if (!TheControlsData.IsForbidden(curEvent.keyCode))
 			{
 				Bind(curEvent.keyCode);
 			}

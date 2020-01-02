@@ -24,10 +24,10 @@ public class Brick : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	virtual public void Detach(bool _playingMode)
+	virtual public void Detach()
 	{
 		// in play mode -> detach brick physically
-		if (_playingMode)
+		if (TheGameManager.GameMode == e_GameMode.Play)
 		{
 			transform.SetParent(null);
 

@@ -19,7 +19,7 @@ public class Editor : MonoBehaviour
     {
 		currentBrickType = BrickType.Neutral;
 		layerBrick = LayerMask.GetMask("Bricks");
-    }
+	}
 
     void Update()
     {
@@ -127,8 +127,9 @@ public class Editor : MonoBehaviour
 		GameObject tempBrick = Instantiate(_objectToInstanciate, _vehicle.transform);
 		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
 
-		// adding created brick to vehicle.bricks
-		_vehicle.bricks.Add(tempBrick.GetComponent<Brick>());
+		// link vehicle and brick
+		Brick createdBrick = tempBrick.GetComponent<Brick>();
+		_vehicle.bricks.Add(createdBrick);
 
 		return tempBrick;
 	}
@@ -153,7 +154,7 @@ public class Editor : MonoBehaviour
 		if (brickHit)
 		{
 			brickHit.Delete();
-			vehicle.ClearNotLinkedBricks(false);
+			vehicle.ClearNotLinkedBricks();
 		}
 	}
 

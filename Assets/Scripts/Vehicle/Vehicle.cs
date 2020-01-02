@@ -13,6 +13,8 @@ public class Vehicle : MonoBehaviour
 	// vehicle bricks
 	[SerializeField] CoreBrick core;
 	public List<Brick> bricks;
+
+	// bind utils
 	public List<IControllable> controllables;
 	List<Action> actions;
 
@@ -20,11 +22,18 @@ public class Vehicle : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody>();
 
+		// init vehicle bricks
 		bricks = new List<Brick>();
 		bricks.Add(core);
 
+		// init bind utils 
 		controllables = new List<IControllable>();
 		actions = new List<Action>();
+
+		// temp solution -> should be replaced by save/load system
+		// -> VehicleBank.Save(Editor.vehicle);
+		// -> level.vehicle = VehicleBank.Load();
+		DontDestroyOnLoad(gameObject);
 	}
 
     void Update()
@@ -35,11 +44,11 @@ public class Vehicle : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad1))
 		{
-			ClearNotLinkedBricks(true);
+			ClearNotLinkedBricks();
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad2))
 		{
-			ClearNotLinkedBricks(false);
+			ClearNotLinkedBricks();
 		}
 	}
 
@@ -68,7 +77,8 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
-	public void ClearNotLinkedBricks(bool _playingMode)
+	// from core, finds all linked brick, and take others out of vehicle
+	public void ClearNotLinkedBricks()
 	{
 		// remove destroyed bricks from vehicle.bricks
 		for (int i = 0; i < bricks.Count; ++i)
@@ -81,8 +91,6 @@ public class Vehicle : MonoBehaviour
 				--i;
 			}
 		}
-
-		// from core, finds all linked brick, and take others out of vehicle
 
 		// get first connected bricks
 		//List<Brick> linkedBricks = core.GetConnectedBricks();
@@ -116,7 +124,7 @@ public class Vehicle : MonoBehaviour
 
 		foreach (var btc in bricksToClear)
 		{
-			btc.Detach(_playingMode);
+			btc.Detach();
 		}
 
 		bricks = linkedBricks;

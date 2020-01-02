@@ -44,7 +44,13 @@ public class Receiver : Brick, IActivable
 	// IActivable implentation
 	public void SetON()
 	{
-		isReceivingPower = true;
+		// really give power only in Play mode, in Editor vehicle musnt use receivers (e.g. reactors, cannons, etc.)
+		if (TheGameManager.GameMode == e_GameMode.Play)
+		{
+			isReceivingPower = true;
+		}
+
+		// always show graphic feedback to inform player that electrical connection works
 		activableGraph.SetON();
 	}
 
