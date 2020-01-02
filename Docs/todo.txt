@@ -1,4 +1,15 @@
 - switches
-	- SwitchBrick().Interract() { // change binding }
-	- boundKeys -> KeyCode (!int)
+	- 3dTex * 6
+	- BindableGraphics -> 
+	{
+		Material matBinding;
+		Material matLast;
+
+		SetWaitingForBinding(bool)
+		{
+			if (true) -> scale up or mat;
+			if (false) -> SetState(IActivable/IControllable state);
+		}
+	}
+	- TestBind(Event) -> out arg key -> move Bind() into IControllable definition
 	- Bricks.AddBrick() -> not in editor anymore?

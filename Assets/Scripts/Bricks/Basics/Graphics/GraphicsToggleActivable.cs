@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GraphicsToggleActivable : MonoBehaviour
 {
 	[SerializeField] Material matUnusable;
-	// UIText -> scale, recolor for example
+	Text worldSpaceText;
 
 	IActivable activable;
 
@@ -13,6 +14,7 @@ public class GraphicsToggleActivable : MonoBehaviour
 	void Start()
     {
 		activable = GetComponent<IActivable>();
+		worldSpaceText = GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -23,5 +25,10 @@ public class GraphicsToggleActivable : MonoBehaviour
 	{
 		//activable.SetOFF();
 		GetComponent<MeshRenderer>().material = matUnusable;
+	}
+
+	public void SetText(string _str)
+	{
+		worldSpaceText.text = _str;
 	}
 }

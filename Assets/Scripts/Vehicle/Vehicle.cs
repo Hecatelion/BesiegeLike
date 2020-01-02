@@ -8,6 +8,7 @@ using System.Linq;
 // physics is applyed on it through movement bricks (e.g. ReactorBrick(s))
 public class Vehicle : MonoBehaviour
 {
+
 	Rigidbody rb;
 
 	// has references on controllable bricks
@@ -26,14 +27,15 @@ public class Vehicle : MonoBehaviour
     {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
+			Debug.Log("Bind!");
 			BindControllables(); // should be done when exiting editor mode / starting game mode
 		}
 	}
 
-	void BindControllables() // should become real 
+	void BindControllables()
 	{
 		// get all bound key
-		List<int> boundKeys = (from controllable in controllables select controllable.GetBoundKey()).Distinct().ToList();
+		List<KeyCode> boundKeys = (from controllable in controllables select controllable.GetBoundKey()).Distinct().ToList();
 
 		// create one action for each bound key, and bind corresponding controllables
 		foreach (var key in boundKeys)
@@ -42,8 +44,14 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
-	public void PerformAction(int _keyBound)
+	public void PerformAction(KeyCode _keyBound)
 	{
-		actions.First(action => action.keyBound == _keyBound).Perform();
+		// on any key press, perform action bound to this key, if none, discard
+		Action actionBound = actions.FirstOrDefault(action => action.keyBound == _keyBound);
+		
+		if(actionBound != default && actionBound != null)
+		{
+			actionBound.Perform();
+		}
 	}
 }

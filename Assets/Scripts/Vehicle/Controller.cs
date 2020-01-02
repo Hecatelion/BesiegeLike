@@ -6,16 +6,30 @@ public class Controller : MonoBehaviour
 {
 	[SerializeField] Vehicle vehicle;
 
-    // Start is called before the first frame update
-    void Start()
-    { }
+	// forbidden keys
+	[SerializeField]
+	public static List<KeyCode> forbiddenKeys;
+
+	// Start is called before the first frame update
+	void Start()
+    {
+		forbiddenKeys = new List<KeyCode>();
+		forbiddenKeys.Add(KeyCode.Escape);
+		forbiddenKeys.Add(KeyCode.LeftAlt);
+	}
 
     // Update is called once per frame
     void Update()
-    {
-		if (Input.GetKeyDown(KeyCode.Keypad0))
+    { }
+
+	private void OnGUI()
+	{
+		// on any key press, perform action bound to this key, if none, discard
+		Event e = Event.current;
+
+		if (e.isKey && Input.anyKeyDown)
 		{
-			vehicle.PerformAction(0);
+			vehicle.PerformAction(e.keyCode);
 		}
-    }
+	}
 }

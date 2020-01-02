@@ -4,6 +4,11 @@ using UnityEngine;
 
 public interface IControllable
 {
+	// key binding
+	void TestBind(Event curEvent);
+	void Bind(KeyCode _key);
+	KeyCode GetBoundKey();
+
+	// brick behavior
 	void Use();
-	int GetBoundKey();
 }
