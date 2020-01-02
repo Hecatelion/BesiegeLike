@@ -19,16 +19,48 @@ public class Brick : MonoBehaviour
 		wires = temp.GetComponent<Wires>();
 	}
 
+	virtual public void Delete()
+	{
+		Destroy(gameObject);
+	}
+
+	virtual public void Detach(bool _playingMode)
+	{
+		// in play mode -> detach brick physically
+		if (_playingMode)
+		{
+			transform.SetParent(null);
+
+			Rigidbody tempRb = transform.GetComponent<Rigidbody>();
+			tempRb.useGravity = true;
+			tempRb.isKinematic = false;
+
+			// bump it away
+			tempRb.AddForce(Vector3.up * Random.Range(-500, 500)
+							+ Vector3.forward * Random.Range(-500, 500)
+							+ Vector3.right * Random.Range(-500, 500));
+		}
+		// in editor -> destroy brick
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	public List<Brick> GetConnectedBricks()
 	{
 		List<Brick> connectedBricks = new List<Brick>();
 
+		// find bricks collisioning with wires' colliders
 		foreach (var col in wires.connectedColliders)
 		{
-			Brick tempBrick = col.GetComponent<Brick>();
-			if (tempBrick != null)
-			{
-				connectedBricks.Add(tempBrick);
+			if (col) // prevent "null reference exception" when brick is deleted
+			{ 
+				Brick tempBrick = col.GetComponent<Brick>();
+				if (tempBrick != null)
+				{
+					connectedBricks.Add(tempBrick);
+				}
 			}
 		}
 

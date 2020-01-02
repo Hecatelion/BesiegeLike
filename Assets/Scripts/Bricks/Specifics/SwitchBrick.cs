@@ -49,22 +49,18 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 		// if player press an autorized key, then bind key and stop
 		if (curEvent.isKey)
 		{
-			Debug.Log("Detected key code: " + curEvent.keyCode);
-
 			if (!Controller.forbiddenKeys.Contains(curEvent.keyCode))
 			{
 				Bind(curEvent.keyCode);
 			}
 
-			isWaitingForKeyToBind = false;
+			SetKeyBindingMode(false);
 		}
 
 		// if player click somewhere, then stop
 		else if (curEvent.isMouse && curEvent.type == EventType.MouseDown)
 		{
-			Debug.Log("Mouse Pressed");
-
-			isWaitingForKeyToBind = false;
+			SetKeyBindingMode(false);
 		}
 	}
 
@@ -74,7 +70,7 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 		boundKey = _key;
 
 		// graphics
-		graphicsToggle.SetText(boundKey.ToString());
+		graphicsToggle.SetTexts(boundKey.ToString());
 	}
 
 	public KeyCode GetBoundKey()
@@ -91,8 +87,13 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 	// IInteraactible interface implementation
 	public void Interact(RaycastHit _hit)
 	{
-		isWaitingForKeyToBind = true;
-		Debug.Log("Binding Start!");
+		SetKeyBindingMode();
+	}
+
+	public void SetKeyBindingMode(bool _b = true)
+	{
+		isWaitingForKeyToBind = _b;
+		graphicsToggle.SetBindingMode(_b);
 	}
 
 	private void OnGUI()

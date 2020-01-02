@@ -132,6 +132,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90ea140765618640a052d94ead29564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &537383281 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3496427839682822128, guid: 801a34232358d83409dabfe4b569df65,
+    type: 3}
+  m_PrefabInstance: {fileID: 6270680957058926607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65a3afa74eabb9498be028d07f89808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &593061763
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +562,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8682856093692169929, guid: 801a34232358d83409dabfe4b569df65,
+        type: 3}
+      propertyPath: core
+      value: 
+      objectReference: {fileID: 537383281}
+    - target: {fileID: 2564484256957572813, guid: 801a34232358d83409dabfe4b569df65,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564484256957572813, guid: 801a34232358d83409dabfe4b569df65,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 801a34232358d83409dabfe4b569df65, type: 3}
 --- !u!114 &6622916284329778112 stripped
@@ -831,6 +858,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 70266277144323541, guid: cea3963675e65ee42827fcef82968917,
         type: 3}
+    - target: {fileID: 8261186751267293774, guid: f3f37735a6b1541488de256a567528c9,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 6622916284329778112}
     - target: {fileID: 8261186751267293761, guid: f3f37735a6b1541488de256a567528c9,
         type: 3}
       propertyPath: m_LocalPosition.x

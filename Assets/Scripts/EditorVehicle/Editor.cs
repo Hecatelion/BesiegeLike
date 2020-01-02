@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Editor : MonoBehaviour
 {
-	[SerializeField] GameObject vehiculeGO;
+	[SerializeField] Vehicle vehicle;
+
+	[Header("Bricks Prefabs")]
 	[SerializeField] GameObject neutralBrickGO;
 	[SerializeField] GameObject reactorBrickGO;
 	[SerializeField] GameObject circuitBrickGO;
@@ -23,6 +25,7 @@ public class Editor : MonoBehaviour
     {
 		if (!Input.GetKey(KeyCode.LeftAlt))
 		{
+			// left click -> brick instantiation
 			if (Input.GetMouseButtonDown(0))
 			{
 				RaycastHit hit;
@@ -33,6 +36,7 @@ public class Editor : MonoBehaviour
 				}
 			}
 
+			// right click -> brick interaction
 			if (Input.GetMouseButtonDown(1))
 			{
 				RaycastHit hit;
@@ -40,6 +44,17 @@ public class Editor : MonoBehaviour
 				if (LookForBrick(out hit))
 				{
 					InteractWithBrick(hit);
+				}
+			}
+
+			// mouse wheel click -> brick deletion
+			if (Input.GetMouseButtonDown(2))
+			{
+				RaycastHit hit;
+
+				if (LookForBrick(out hit))
+				{
+					DeleteBrick(hit);
 				}
 			}
 		}
@@ -51,31 +66,39 @@ public class Editor : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Physics.Raycast(ray, out _hit, float.MaxValue, layerBrick); // using layerBrick to ignore wires' colliders
 
-		return _hit.transform && _hit.transform.GetComponent<Brick>() != null;
+		//Brick brickHit = _hit.transform.GetComponent<Brick>() ?? null;
+
+		return _hit.transform && _hit.transform.GetComponent<Brick>() != null && vehicle.bricks.Contains(_hit.transform.GetComponent<Brick>());
 	}
 
-	// bricks instantiations
+	// ------------------------------------------
+	//			bricks instantiations
+	// ------------------------------------------
+
 	void AddBrick(RaycastHit _hit)
 	{
-		switch (currentBrickType)
+		if (vehicle.bricks.Contains(_hit.transform.GetComponent<Brick>()))
 		{
-			case BrickType.Neutral:		AddNeutralBrick(_hit);		break;
-			case BrickType.Reactor:		AddReactorBrick(_hit);		break;
-			case BrickType.Circuit:		AddCircuitBrick(_hit);		break;
-			case BrickType.Switch:		AddSwitchBrick(_hit);		break;
+			switch (currentBrickType)
+			{
+				case BrickType.Neutral: AddNeutralBrick(_hit); break;
+				case BrickType.Reactor: AddReactorBrick(_hit); break;
+				case BrickType.Circuit: AddCircuitBrick(_hit); break;
+				case BrickType.Switch:	AddSwitchBrick(_hit); break;
+			}
 		}
 	}
 
 	void AddNeutralBrick(RaycastHit _hit)
 	{
-		// Instantiate a neutral brick, ignoring variable the returned
-		_ = InstantiateBrick(neutralBrickGO, vehiculeGO.transform, _hit);
+		// Instantiate a neutral brick, ignoring the returned variable
+		_ = InstantiateBrick(neutralBrickGO, vehicle, _hit);
 	}
 
 	void AddReactorBrick(RaycastHit _hit)
 	{
 		// Instantiate a reactor brick
-		GameObject tempBrick = InstantiateBrick(reactorBrickGO, vehiculeGO.transform, _hit);
+		GameObject tempBrick = InstantiateBrick(reactorBrickGO, vehicle, _hit);
 
 		ReactorBrick reactorBrick = tempBrick.GetComponent<ReactorBrick>();
 
@@ -83,30 +106,37 @@ public class Editor : MonoBehaviour
 		reactorBrick.SetDirection(-_hit.normal);
 
 		// link reactors to vehicle, in order to make reactors move vehicle
-		reactorBrick.SetVehicle(vehiculeGO.GetComponent<Rigidbody>());
+		reactorBrick.SetVehicle(vehicle.GetComponent<Rigidbody>());
 	}
 
 	void AddCircuitBrick(RaycastHit _hit)
 	{
-		_ = InstantiateBrick(circuitBrickGO, vehiculeGO.transform, _hit);
+		_ = InstantiateBrick(circuitBrickGO, vehicle, _hit);
 	}
 
 	void AddSwitchBrick(RaycastHit _hit)
 	{
 		// Instantiate a switch brick and link it to vehicle
-		IControllable controllable = InstantiateBrick(switchBrickGO, vehiculeGO.transform, _hit).GetComponent<IControllable>();
-		vehiculeGO.GetComponent<Vehicle>().controllables.Add(controllable);
+		IControllable controllable = InstantiateBrick(switchBrickGO, vehicle, _hit).GetComponent<IControllable>();
+		vehicle.GetComponent<Vehicle>().controllables.Add(controllable);
 	}
 
-	GameObject InstantiateBrick(GameObject _objectToInstanciate, Transform _parent, RaycastHit _hit)
+	GameObject InstantiateBrick(GameObject _objectToInstanciate, Vehicle _vehicle, RaycastHit _hit)
 	{
-		GameObject tempBrick = Instantiate(_objectToInstanciate, _parent);
+		// scene instantiation settings
+		GameObject tempBrick = Instantiate(_objectToInstanciate, _vehicle.transform);
 		tempBrick.transform.position = _hit.transform.position + _hit.normal * 0.5f;
+
+		// adding created brick to vehicle.bricks
+		_vehicle.bricks.Add(tempBrick.GetComponent<Brick>());
 
 		return tempBrick;
 	}
 
+	// ------------------------------------------
 	// bricks interactions
+	// ------------------------------------------
+
 	void InteractWithBrick(RaycastHit _hit)
 	{
 		IInteractible interactible = _hit.transform.GetComponent<IInteractible>();
@@ -117,7 +147,20 @@ public class Editor : MonoBehaviour
 		}
 	}
 
+	void DeleteBrick(RaycastHit _hit)
+	{
+		Brick brickHit = _hit.transform.GetComponent<Brick>();
+		if (brickHit)
+		{
+			brickHit.Delete();
+			vehicle.ClearNotLinkedBricks(false);
+		}
+	}
+
+	// ------------------------------------------
 	// UI Brick type selection
+	// ------------------------------------------
+
 	public void UI_SelectThisBrickType(UIButtonBrickType _script)
 	{
 		currentBrickType = _script.brickType;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GraphicsToggleActivable : MonoBehaviour
 {
 	[SerializeField] Material matUnusable;
-	Text worldSpaceText;
+	Text[] worldSpaceTexts;
 
 	IActivable activable;
 
@@ -14,7 +14,7 @@ public class GraphicsToggleActivable : MonoBehaviour
 	void Start()
     {
 		activable = GetComponent<IActivable>();
-		worldSpaceText = GetComponentInChildren<Text>();
+		worldSpaceTexts = GetComponentsInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -23,12 +23,29 @@ public class GraphicsToggleActivable : MonoBehaviour
 
 	public void SetUnusable()
 	{
-		//activable.SetOFF();
 		GetComponent<MeshRenderer>().material = matUnusable;
 	}
 
-	public void SetText(string _str)
+	public void SetBindingMode(bool _isWaitingForBinding = true)
 	{
-		worldSpaceText.text = _str;
+		// graphic feedback when brick is waiting for key binding
+		Color col = (_isWaitingForBinding) ? Color.cyan : Color.white;
+		SetTextsColor(col);
+	}
+
+	public void SetTexts(string _str)
+	{
+		foreach (var t in worldSpaceTexts)
+		{
+			t.text = _str;
+		}
+	}
+
+	public void SetTextsColor(Color _col)
+	{
+		foreach (var t in worldSpaceTexts)
+		{
+			t.color = _col;
+		}
 	}
 }

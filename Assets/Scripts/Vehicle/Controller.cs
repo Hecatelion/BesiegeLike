@@ -8,7 +8,7 @@ public class Controller : MonoBehaviour
 
 	// forbidden keys
 	[SerializeField]
-	public static List<KeyCode> forbiddenKeys;
+	public static List<KeyCode> forbiddenKeys; // go back to array (init is aweful)
 
 	// Start is called before the first frame update
 	void Start()
@@ -20,7 +20,9 @@ public class Controller : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { }
+    {
+
+	}
 
 	private void OnGUI()
 	{

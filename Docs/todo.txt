@@ -1,15 +1,16 @@
-- switches
-	- 3dTex * 6
-	- BindableGraphics -> 
-	{
-		Material matBinding;
-		Material matLast;
+- GameMode (c.f. Editor.DeleteBrick(), Vehicle.ClearNotLinkedBricks(), Brick.Detach())
+	- on play → ClearNotLinkedBricks()  (c.f. Vehicle.cs)
+	- on play → BindControllables()  (c.f. Vehicle.cs)
+	- change skybox
+	- 1st goal (reach area)
 
-		SetWaitingForBinding(bool)
-		{
-			if (true) -> scale up or mat;
-			if (false) -> SetState(IActivable/IControllable state);
-		}
-	}
-	- TestBind(Event) -> out arg key -> move Bind() into IControllable definition
-	- Bricks.AddBrick() -> not in editor anymore?
+
+
+[KNOWN BUGS]
+
+- circuit instantiation bug : 
+IF (circuit1 connected to core && 
+    circuit2 connected to reactor && 
+    circuit1 !connected to circuit2)
+THEN 
+    reactor is receving power for 1 frame
