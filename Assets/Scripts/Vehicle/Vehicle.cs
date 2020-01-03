@@ -10,7 +10,11 @@ public class Vehicle : MonoBehaviour
 {
 	Rigidbody rb;
 
+	// will be possessed automatically by a controller if one is available
+	[SerializeField] public bool shouldBeAutoPossessed = true;
+
 	// vehicle bricks
+	[Header("Vehicle Bricks")]
 	[SerializeField] CoreBrick core;
 	public List<Brick> bricks;
 	int framesBeforeClearing = -1; // used to delay clear after brick deletion, objects being destroyed at the end of the frame
@@ -39,22 +43,7 @@ public class Vehicle : MonoBehaviour
 
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.Keypad0))
-		{
-			BindControllables(); // should be done when exiting editor mode / starting game mode
-			_ = 0;
-		}
-		else if (Input.GetKeyDown(KeyCode.Keypad1))
-		{
-			ClearNotLinkedBricks();
-		}
-		else if (Input.GetKeyDown(KeyCode.Keypad2))
-		{
-			ClearNotLinkedBricks();
-		}
-
 		// brick clearing
-
 		// if there are frames left, then decrement
 		if (framesBeforeClearing > 0)
 		{
@@ -68,7 +57,7 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
-	void BindControllables()
+	public void BindControllables()
 	{
 		// remove deleted controllable bricks for controllables
 		//controllables.RemoveNullItems(); -> dosent works because interface not castable in object :)))
@@ -82,8 +71,6 @@ public class Vehicle : MonoBehaviour
 		{
 			actions.Add(new Action(key, (from controllable in controllables where controllable.GetBoundKey() == key select controllable).ToList()));
 		}
-
-		Debug.Log("Bind succeeded");
 	}
 
 	public void PerformAction(KeyCode _keyBound)
@@ -107,18 +94,7 @@ public class Vehicle : MonoBehaviour
 	private void ClearNotLinkedBricks()
 	{
 		// remove destroyed bricks from vehicle.bricks
-		//bricks.RemoveAll(item => item == null);
 		bricks.RemoveNullItems();
-		/*for (int i = 0; i < bricks.Count; ++i)
-		{
-			if (bricks[i] == null)
-			{
-				bricks.RemoveAt(i);
-
-				// decremente to test next index (which has changed because one item has been removed)
-				--i;
-			}
-		}*/
 
 		// get first connected bricks
 		//List<Brick> linkedBricks = core.GetConnectedBricks();
@@ -156,5 +132,16 @@ public class Vehicle : MonoBehaviour
 		}
 
 		bricks = linkedBricks;
+	}
+
+	public void Explode()
+	{
+		foreach (var brick in bricks)
+		{
+			brick.Detach();
+		}
+
+		rb.velocity = Vector3.zero;
+		//Destroy(rb);
 	}
 }

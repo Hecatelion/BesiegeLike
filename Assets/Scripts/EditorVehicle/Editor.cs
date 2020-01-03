@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Editor : MonoBehaviour
 {
@@ -15,10 +16,18 @@ public class Editor : MonoBehaviour
 	public BrickType currentBrickType;
 	int layerBrick = 0;
 
+	[Header("PlayMenu")]
+	[SerializeField] GameObject playButtonGO;
+
     void Start()
     {
 		currentBrickType = BrickType.Neutral;
 		layerBrick = LayerMask.GetMask("Bricks");
+
+		if (TheGameManager.NextLevel == "None")
+		{
+			playButtonGO.SetActive(false);
+		}
 	}
 
     void Update()
@@ -164,5 +173,29 @@ public class Editor : MonoBehaviour
 	public void UI_SelectThisBrickType(UIButtonBrickType _script)
 	{
 		currentBrickType = _script.brickType;
+	}
+
+	public void UI_Back()
+	{
+		Destroy(vehicle.gameObject);
+
+		string nextLevel = TheGameManager.NextLevel;
+		
+		// if editor phase before levels, go back to LevelSelection
+		if (nextLevel.Contains("Level"))
+		{
+			TheCustomSceneManager.LoadScene_SetNextLevel("LevelSelection");
+		}
+		// if classical editor, go back to main menu
+		else
+		{
+			TheCustomSceneManager.LoadScene_SetNextLevel("Menu");
+		}
+	}
+
+	public void UI_Play()
+	{
+		vehicle.BindControllables();
+		TheCustomSceneManager.LoadScene_SetNextLevel(TheGameManager.NextLevel);
 	}
 }

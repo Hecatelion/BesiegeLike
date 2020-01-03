@@ -1,11 +1,7 @@
-- GameMode (c.f. Editor.DeleteBrick(), Vehicle.ClearNotLinkedBricks(), Brick.Detach())
-	- 2 scenes 
-		- OpenLevel() -> level.vehicle = editor.vehicle;
-			      -> level.controller.vehicle = level.vehicle; 
-		- OpenEditor() -> Destroylevel.vehicle 
-	- on play → BindControllables()  (c.f. Vehicle.cs)
+[Play]
 	- change skybox
-	- 1st goal (reach area)
+
+- resize ControllableGraphics.Text according to string's size
 
 [KNOWN BUGS]
 
@@ -15,3 +11,11 @@ IF (circuit1 connected to core &&
     circuit1 !connected to circuit2)
 THEN 
     reactor is receving power for 1 frame
+
+
+[ALCHIMIE]
+┌ titre
+└ list infos
+- plan diapo
+- diapo proto
+- diapo skinning

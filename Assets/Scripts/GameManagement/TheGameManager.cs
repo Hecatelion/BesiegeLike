@@ -14,8 +14,15 @@ public class TheGameManager : MonoBehaviour
 		set => instance.gameMode = value;
 	}
 
-    // Start is called before the first frame update
-    void Start()
+	public string nextLevel = "None"; // every level has an editor first phase, nextLevel remebers which level will be load after
+	public static string NextLevel
+	{
+		get => instance.nextLevel;
+		set => instance.nextLevel = value;
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
         if (!instance)
 		{
