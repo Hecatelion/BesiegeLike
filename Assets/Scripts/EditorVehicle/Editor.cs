@@ -153,8 +153,7 @@ public class Editor : MonoBehaviour
 		Brick brickHit = _hit.transform.GetComponent<Brick>();
 		if (brickHit)
 		{
-			brickHit.Delete();
-			vehicle.ClearNotLinkedBricks();
+			brickHit.Delete(vehicle);
 		}
 	}
 

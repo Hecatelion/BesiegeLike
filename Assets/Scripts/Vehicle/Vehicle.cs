@@ -13,6 +13,7 @@ public class Vehicle : MonoBehaviour
 	// vehicle bricks
 	[SerializeField] CoreBrick core;
 	public List<Brick> bricks;
+	int framesBeforeClearing = -1; // used to delay clear after brick deletion, objects being destroyed at the end of the frame
 
 	// bind utils
 	public List<IControllable> controllables;
@@ -41,6 +42,7 @@ public class Vehicle : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad0))
 		{
 			BindControllables(); // should be done when exiting editor mode / starting game mode
+			_ = 0;
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad1))
 		{
@@ -50,10 +52,28 @@ public class Vehicle : MonoBehaviour
 		{
 			ClearNotLinkedBricks();
 		}
+
+		// brick clearing
+
+		// if there are frames left, then decrement
+		if (framesBeforeClearing > 0)
+		{
+			framesBeforeClearing--;
+		}
+		// if timer ends, then call clearing function and disactivate frames counter
+		else if (framesBeforeClearing == 0)
+		{
+			ClearNotLinkedBricks();
+			framesBeforeClearing = -1;
+		}
 	}
 
 	void BindControllables()
 	{
+		// remove deleted controllable bricks for controllables
+		//controllables.RemoveNullItems(); -> dosent works because interface not castable in object :)))
+		controllables.RemoveAll(item => item == null);
+
 		// get all bound key
 		List<KeyCode> boundKeys = (from controllable in controllables select controllable.GetBoundKey()).Distinct().ToList();
 
@@ -77,20 +97,28 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
+	// activate frames counter
+	public void AskForClear()
+	{
+		framesBeforeClearing = 1;
+	}
+
 	// from core, finds all linked brick, and take others out of vehicle
-	public void ClearNotLinkedBricks()
+	private void ClearNotLinkedBricks()
 	{
 		// remove destroyed bricks from vehicle.bricks
-		for (int i = 0; i < bricks.Count; ++i)
+		//bricks.RemoveAll(item => item == null);
+		bricks.RemoveNullItems();
+		/*for (int i = 0; i < bricks.Count; ++i)
 		{
-			if (!bricks[i])
+			if (bricks[i] == null)
 			{
 				bricks.RemoveAt(i);
 
 				// decremente to test next index (which has changed because one item has been removed)
 				--i;
 			}
-		}
+		}*/
 
 		// get first connected bricks
 		//List<Brick> linkedBricks = core.GetConnectedBricks();
