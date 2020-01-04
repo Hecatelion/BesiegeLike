@@ -142,6 +142,5 @@ public class Vehicle : MonoBehaviour
 		}
 
 		rb.velocity = Vector3.zero;
-		//Destroy(rb);
 	}
 }

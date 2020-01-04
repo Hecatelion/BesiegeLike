@@ -50,9 +50,9 @@ public class Brick : MonoBehaviour
 			tempRb.isKinematic = false;
 
 			// bump it away in random direction
-			Vector3 randDir = Vector3.up * Random.Range(-1, 1)
-							+ Vector3.forward * Random.Range(-1, 1)
-							+ Vector3.right * Random.Range(-1, 1);
+			Vector3 randDir = Vector3.up * Random.Range(-1f, 1f)
+							+ Vector3.forward * Random.Range(-1f, 1f)
+							+ Vector3.right * Random.Range(-1f, 1f);
 			tempRb.AddForce(randDir * detachingForce);
 		}
 		// in editor -> destroy brick

@@ -1,7 +1,3 @@
-[Play]
-	- change skybox
-
-- resize ControllableGraphics.Text according to string's size
 
 [KNOWN BUGS]
 

@@ -135,6 +135,7 @@ MonoBehaviour:
   isUsable: 1
   isConductingPower: 0
   isWaitingForKeyToBind: 0
+  linkedVehicle: {fileID: 0}
 --- !u!114 &70266277144323545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +295,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.0025
       objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}
 --- !u!224 &7724070182257246898 stripped
@@ -433,6 +444,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}
@@ -574,6 +595,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.0025
       objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}
 --- !u!224 &3511167972070558553 stripped
@@ -713,6 +744,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}
@@ -854,6 +895,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.0025
       objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}
 --- !u!224 &3614874322160207655 stripped
@@ -993,6 +1044,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_Text
+      value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079991116046027788, guid: 9d04bbc94464fae47945d7573d1b7b39,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 132
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d04bbc94464fae47945d7573d1b7b39, type: 3}

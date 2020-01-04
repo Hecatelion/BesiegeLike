@@ -13,6 +13,10 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 	//private int boundKey = 0; // should become KeyCode
 	private KeyCode boundKey = KeyCode.None; // should become KeyCode
 	public bool isWaitingForKeyToBind = false;
+	public Vehicle linkedVehicle = null;
+
+	bool graphicsReady = false;
+	bool needGraphicsUpdate = false;
 
 	// Start is called before the first frame update
 	override protected void Start()
@@ -22,12 +26,20 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 		graphicsToggle = GetComponent<GraphicsToggleActivable>();
 
 		SetUsable(false);
+
+		graphicsReady = true;
     }
 
     // Update is called once per frame
     override protected void Update()
     {
 		base.Update();
+
+		if (needGraphicsUpdate)
+		{
+			// rebind to ut
+			Bind(boundKey);
+		}
     }
 
 	public void SetUsable(bool _isUsable = true)
@@ -69,8 +81,16 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 	{
 		boundKey = _key;
 
-		// graphics
-		graphicsToggle.SetTexts(boundKey.ToString());
+		if (graphicsReady)
+		{
+			// graphics
+			graphicsToggle.SetTexts(boundKey.ToString());
+			needGraphicsUpdate = false;
+		}
+		else
+		{
+			needGraphicsUpdate = true;
+		}
 	}
 
 	public KeyCode GetBoundKey()
@@ -85,7 +105,7 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 	}
 
 	// IInteraactible interface implementation
-	public void Interact(RaycastHit _hit)
+	public void Interact(RaycastHit _hit = default)
 	{
 		SetKeyBindingMode();
 	}
