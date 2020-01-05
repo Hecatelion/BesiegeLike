@@ -9,9 +9,8 @@ using UnityEngine;
 public class SwitchBrick : Conductor, IControllable, IInteractible
 {
 	GraphicsToggleActivable graphicsToggle;
-
-	//private int boundKey = 0; // should become KeyCode
-	private KeyCode boundKey = KeyCode.None; // should become KeyCode
+	
+	private KeyCode boundKey = KeyCode.None;
 	public bool isWaitingForKeyToBind = false;
 	public Vehicle linkedVehicle = null;
 
@@ -22,6 +21,7 @@ public class SwitchBrick : Conductor, IControllable, IInteractible
 	override protected void Start()
     {
 		base.Start();
+		type = e_BrickType.Switch;
 
 		graphicsToggle = GetComponent<GraphicsToggleActivable>();
 

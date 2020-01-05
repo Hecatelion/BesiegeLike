@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90ea140765618640a052d94ead29564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEditor: {fileID: 0}
   vehicle: {fileID: 0}
   emptyVehicleGO: {fileID: 3602743803960889502, guid: 801a34232358d83409dabfe4b569df65,
     type: 3}
@@ -233,6 +234,25 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UI_NewVehicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6705625201968953471, guid: 60a030d28a62a0e4faedd59251c6ed7c,
+        type: 3}
+      propertyPath: brickType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283505685420411732, guid: 60a030d28a62a0e4faedd59251c6ed7c,
+        type: 3}
+      propertyPath: brickType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267247726602375195, guid: 60a030d28a62a0e4faedd59251c6ed7c,
+        type: 3}
+      propertyPath: brickType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748055658, guid: 60a030d28a62a0e4faedd59251c6ed7c, type: 3}
+      propertyPath: brickType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60a030d28a62a0e4faedd59251c6ed7c, type: 3}

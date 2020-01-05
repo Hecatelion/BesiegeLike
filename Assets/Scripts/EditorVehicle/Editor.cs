@@ -18,7 +18,7 @@ public class Editor : MonoBehaviour
 	[SerializeField] GameObject circuitBrickGO;
 	[SerializeField] GameObject switchBrickGO;
 
-	public BrickType currentBrickType;
+	public e_BrickType currentBrickType;
 	int layerBrick = 0;
 
 	[Header("PlayMenu")]
@@ -26,14 +26,12 @@ public class Editor : MonoBehaviour
 
     void Start()
     {
-		currentBrickType = BrickType.Neutral;
+		currentBrickType = e_BrickType.Neutral;
 		layerBrick = LayerMask.GetMask("Bricks");
 		usedCamera = cameraEditor;
 
-		if (TheGameManager.NextLevel == "None")
-		{
-			playButtonGO.SetActive(false);
-		}
+		// while there isn't any vehicle, player can't play the leve
+		playButtonGO.SetActive(false);
 	}
 
     void Update()
@@ -78,6 +76,7 @@ public class Editor : MonoBehaviour
 	// ------------------------------------------
 	//					vehicle 
 	// ------------------------------------------
+
 	void CreateNewVehicle(GameObject _vehicleGOToCreate = null)
 	{
 		// destroy current vehicle
@@ -90,6 +89,15 @@ public class Editor : MonoBehaviour
 		// use created vehicle camera
 		SwitchCamera(vehicle.transform.GetComponentInChildren<Camera>());
 	}
+
+	void CreateNewVehicle(JsonableVehicle _jsonableVehicle)
+	{
+		// from JsonableVehicle recreate vehicle (using brick instantiation)
+	}
+
+	// ------------------------------------------
+	//				brick detection
+	// ------------------------------------------
 
 	// raycasting to find a brick and return if succeed
 	bool LookForBrick(out RaycastHit _hit)
@@ -125,10 +133,10 @@ public class Editor : MonoBehaviour
 
 			switch (currentBrickType)
 			{
-				case BrickType.Neutral: AddNeutralBrick(pos);	break;
-				case BrickType.Reactor: AddReactorBrick(pos, -_hit.normal);	break;
-				case BrickType.Circuit: AddCircuitBrick(pos);	break;
-				case BrickType.Switch:	AddSwitchBrick(pos, KeyCode.Space);	break;
+				case e_BrickType.Neutral:	AddNeutralBrick(pos);					break;
+				case e_BrickType.Reactor:	AddReactorBrick(pos, -_hit.normal);		break;
+				case e_BrickType.Circuit:	AddCircuitBrick(pos);					break;
+				case e_BrickType.Switch:	AddSwitchBrick(pos, KeyCode.Space);		break;
 			}
 		}
 	}
@@ -147,7 +155,7 @@ public class Editor : MonoBehaviour
 		ReactorBrick reactorBrick = tempBrick.GetComponent<ReactorBrick>();
 
 		// make reactor's muzzle point at the opposite of the brick it is built on
-		reactorBrick.SetDirection(_dir);
+		reactorBrick.Direction = _dir;
 
 		// link reactors to vehicle, in order to make reactors move vehicle
 		reactorBrick.SetVehicle(vehicle.GetComponent<Rigidbody>());
@@ -216,7 +224,7 @@ public class Editor : MonoBehaviour
 	{
 		// trash vehicle
 		SwitchCamera(cameraEditor);
-		Destroy(vehicle.gameObject);
+		if(vehicle) Destroy(vehicle.gameObject);
 
 		string nextLevel = TheGameManager.NextLevel;
 		
@@ -241,16 +249,21 @@ public class Editor : MonoBehaviour
 	public void UI_NewVehicle()
 	{
 		CreateNewVehicle();
+		
+		// allow player to play level
+		if (TheGameManager.NextLevel != "None")
+		{
+			playButtonGO.SetActive(true);
+		}
 	}
 
 	public void UI_Save()
 	{
-		TheSaveManager.Save(vehicle.gameObject, "vehicle1"); // player must chose name
+		TheSaveManager.Save(vehicle, "vehicle1"); // player must chose name
 	}
 
 	public void UI_Load()
 	{
-		GameObject loadedVehicleGO = TheSaveManager.Load("vehicle1");
-		CreateNewVehicle(loadedVehicleGO);
+		CreateNewVehicle(TheSaveManager.Load("vehicle1")); // player must chose name
 	}
 }

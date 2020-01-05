@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class UIButtonBrickType : MonoBehaviour
 {
-	[SerializeField] public BrickType brickType;
+	[SerializeField] public e_BrickType brickType;
 }

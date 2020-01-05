@@ -7,9 +7,16 @@ public class ReactorBrick : Receiver, IInteractible
 	Rigidbody rbVehicle;
 	[SerializeField] float power = 10.0f;
 
+	public Vector3 Direction
+	{
+		get => transform.forward;
+		set => transform.forward = value;
+	}
+
 	protected override void Start()
 	{
 		base.Start();
+		type = e_BrickType.Reactor;
 	}
 
 	protected override void Update()
@@ -23,10 +30,14 @@ public class ReactorBrick : Receiver, IInteractible
 	}
 
 	// direction in which the ship will go
+	/*public Vector3 GetDirection()
+	{
+		return transform.forward;
+	}
 	public void SetDirection(Vector3 _dir)
 	{
 		transform.forward = _dir;
-	}
+	}*/
 
 	public void SetVehicle(Rigidbody _rb)
 	{
@@ -41,6 +52,6 @@ public class ReactorBrick : Receiver, IInteractible
 	// IInteraactible interface implementation
 	public void Interact(RaycastHit _hit)
 	{
-		SetDirection(-_hit.normal);
+		Direction = -_hit.normal;
 	}
 }

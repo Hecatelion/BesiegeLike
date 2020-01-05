@@ -1,11 +1,9 @@
-singleton things (prefabs, put in scene, etc.)
-
-1) simple test
-- save w/ json
-- read w/ json
-
-2) add it to editor
-- delete current on load
+[Saving System]
+- TheSaveManager.Load(string _name)
+- Editor.CreateNewVehicle(JsonableVehicle _jsonableVehicle)
+- test save/load
+- allow player to chose vehicle name
+- write file
 
 [KNOWN BUGS]
 

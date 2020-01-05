@@ -8,6 +8,7 @@ public class CoreBrick : Emitter
     protected override void Start()
     {
 		base.Start();
+		type = e_BrickType.Core;
 
 		isEmittingPower = true;
     }

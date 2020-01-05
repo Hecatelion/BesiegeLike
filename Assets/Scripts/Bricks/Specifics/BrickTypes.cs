@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BrickType
+public enum e_BrickType
 {
+	None,
     Core, 
 	Neutral,
 	Reactor,

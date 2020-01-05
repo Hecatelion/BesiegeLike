@@ -6,6 +6,9 @@ using System.Linq;
 
 public class Brick : MonoBehaviour
 {
+	protected e_BrickType type;
+	public e_BrickType Type { get => type; }
+
 	private static float detachingForce = 400;
 	[HideInInspector] public GameObject conductiveWiresGO;
 	[HideInInspector] public Wires wires;
