@@ -5,7 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Editor : MonoBehaviour
 {
+	[SerializeField] Camera cameraEditor;
+	Camera usedCamera;
+
+	[Header("Vehicle")]
 	[SerializeField] Vehicle vehicle;
+	[SerializeField] GameObject emptyVehicleGO;
 
 	[Header("Bricks Prefabs")]
 	[SerializeField] GameObject neutralBrickGO;
@@ -23,6 +28,7 @@ public class Editor : MonoBehaviour
     {
 		currentBrickType = BrickType.Neutral;
 		layerBrick = LayerMask.GetMask("Bricks");
+		usedCamera = cameraEditor;
 
 		if (TheGameManager.NextLevel == "None")
 		{
@@ -32,7 +38,7 @@ public class Editor : MonoBehaviour
 
     void Update()
     {
-		if (!Input.GetKey(KeyCode.LeftAlt))
+		if (vehicle && !Input.GetKey(KeyCode.LeftAlt))
 		{
 			// left click -> brick instantiation
 			if (Input.GetMouseButtonDown(0))
@@ -69,6 +75,22 @@ public class Editor : MonoBehaviour
 		}
     }
 
+	// ------------------------------------------
+	//					vehicle 
+	// ------------------------------------------
+	void CreateNewVehicle(GameObject _vehicleGOToCreate = null)
+	{
+		// destroy current vehicle
+		if (vehicle) Destroy(vehicle.gameObject);
+
+		// create the new one
+		GameObject vehicleToCreate = _vehicleGOToCreate ?? emptyVehicleGO;
+		vehicle = Instantiate(vehicleToCreate).GetComponent<Vehicle>();
+
+		// use created vehicle camera
+		SwitchCamera(vehicle.transform.GetComponentInChildren<Camera>());
+	}
+
 	// raycasting to find a brick and return if succeed
 	bool LookForBrick(out RaycastHit _hit)
 	{
@@ -81,6 +103,19 @@ public class Editor : MonoBehaviour
 	// ------------------------------------------
 	//			bricks instantiations
 	// ------------------------------------------
+
+	GameObject InstantiateBrick(GameObject _objectToInstanciate, Vehicle _vehicle, Vector3 _pos)
+	{
+		// scene instantiation settings
+		GameObject tempBrick = Instantiate(_objectToInstanciate, _vehicle.transform);
+		tempBrick.transform.position = _pos;
+
+		// link vehicle and brick
+		Brick createdBrick = tempBrick.GetComponent<Brick>();
+		_vehicle.bricks.Add(createdBrick);
+
+		return tempBrick;
+	}
 
 	void AddBrickOnHit(RaycastHit _hit)
 	{
@@ -104,7 +139,7 @@ public class Editor : MonoBehaviour
 		_ = InstantiateBrick(neutralBrickGO, vehicle, _pos);
 	}
 
-	void AddReactorBrick(Vector3 _pos, Vector3 _dir)//RaycastHit _hit)
+	void AddReactorBrick(Vector3 _pos, Vector3 _dir)
 	{
 		// Instantiate a reactor brick
 		GameObject tempBrick = InstantiateBrick(reactorBrickGO, vehicle, _pos);
@@ -134,19 +169,6 @@ public class Editor : MonoBehaviour
 		createdSwitchBrickGO.GetComponent<SwitchBrick>().Bind(_keyBound);
 	}
 
-	GameObject InstantiateBrick(GameObject _objectToInstanciate, Vehicle _vehicle, Vector3 _pos) //, RaycastHit _hit)
-	{
-		// scene instantiation settings
-		GameObject tempBrick = Instantiate(_objectToInstanciate, _vehicle.transform);
-		tempBrick.transform.position = _pos;
-
-		// link vehicle and brick
-		Brick createdBrick = tempBrick.GetComponent<Brick>();
-		_vehicle.bricks.Add(createdBrick);
-
-		return tempBrick;
-	}
-
 	// ------------------------------------------
 	// bricks interactions
 	// ------------------------------------------
@@ -171,7 +193,18 @@ public class Editor : MonoBehaviour
 	}
 
 	// ------------------------------------------
-	// UI Brick type selection
+	//					Camera
+	// ------------------------------------------
+
+	void SwitchCamera(Camera _newCameraUsed)
+	{
+		usedCamera.enabled = false;
+		usedCamera = _newCameraUsed;
+		usedCamera.enabled = true;
+	}
+
+	// ------------------------------------------
+	//					UI 
 	// ------------------------------------------
 
 	public void UI_SelectThisBrickType(UIButtonBrickType _script)
@@ -181,6 +214,8 @@ public class Editor : MonoBehaviour
 
 	public void UI_Back()
 	{
+		// trash vehicle
+		SwitchCamera(cameraEditor);
 		Destroy(vehicle.gameObject);
 
 		string nextLevel = TheGameManager.NextLevel;
@@ -201,5 +236,21 @@ public class Editor : MonoBehaviour
 	{
 		vehicle.BindControllables();
 		TheCustomSceneManager.LoadScene_SetNextLevel(TheGameManager.NextLevel);
+	}
+
+	public void UI_NewVehicle()
+	{
+		CreateNewVehicle();
+	}
+
+	public void UI_Save()
+	{
+		TheSaveManager.Save(vehicle.gameObject, "vehicle1"); // player must chose name
+	}
+
+	public void UI_Load()
+	{
+		GameObject loadedVehicleGO = TheSaveManager.Load("vehicle1");
+		CreateNewVehicle(loadedVehicleGO);
 	}
 }

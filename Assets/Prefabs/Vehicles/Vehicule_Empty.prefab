@@ -62,6 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff5dbd5726d36c4a846c7af0ddb3f9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldBeAutoPossessed: 1
+  core: {fileID: 3496427839682822128}
+  bricks: []
 --- !u!1001 &592037312945989556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,3 +220,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7882474822874931867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3496427839682822128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6764938318598577515, guid: 927d839f63bb92e4db404cdfb11fb6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7882474822874931867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65a3afa74eabb9498be028d07f89808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

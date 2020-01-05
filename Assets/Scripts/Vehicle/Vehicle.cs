@@ -57,6 +57,8 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
+	
+
 	public void BindControllables()
 	{
 		// remove deleted controllable bricks for controllables
