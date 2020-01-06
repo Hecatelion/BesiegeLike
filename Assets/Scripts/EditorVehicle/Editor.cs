@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Editor : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class Editor : MonoBehaviour
 
     void Start()
     {
+		// test 
+		StreamWriter writer = new StreamWriter("Assets/savedVehicles.json", true);
+		writer.Write("truc");
+		writer.Close();
+
 		currentBrickType = e_BrickType.Neutral;
 		layerBrick = LayerMask.GetMask("Bricks");
 		usedCamera = cameraEditor;
@@ -264,6 +270,7 @@ public class Editor : MonoBehaviour
 
 	public void UI_Load()
 	{
+
 		CreateNewVehicle(TheSaveManager.Load("vehicle1")); // player must chose name
 	}
 }

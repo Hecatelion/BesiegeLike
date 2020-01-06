@@ -21,6 +21,8 @@ public class Brick : MonoBehaviour
 		// Instantiate Conductive Wires Object and store its script
 		GameObject temp = Instantiate(conductiveWiresGO, transform);
 		wires = temp.GetComponent<Wires>();
+
+		type = e_BrickType.Neutral;
 	}
 
 	virtual public void Delete(Vehicle _parentVehicle)

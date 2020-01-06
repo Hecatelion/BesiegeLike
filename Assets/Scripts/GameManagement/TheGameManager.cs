@@ -31,7 +31,7 @@ public class TheGameManager : MonoBehaviour
 		}
 		else
 		{
-			Destroy(this);
+			Destroy(this.gameObject);
 		}
     }
 
