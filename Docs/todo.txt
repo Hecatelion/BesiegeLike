@@ -1,10 +1,11 @@
 [Saving System]
-- test save/load
-- TheSaveManager.Load(string _name)
-- Editor.CreateNewVehicle(JsonableVehicle _jsonableVehicle)
-- test save/load
+- add switchBrickDatas in VehicleData
+	- Editor.CreateNewVehicle(VehicleData vehicleData)
+- Write all data files
+- Load all data files
+
 - allow player to chose vehicle name
-- write file
+- select file
 
 [KNOWN BUGS]
 

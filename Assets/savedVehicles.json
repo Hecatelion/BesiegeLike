@@ -1,5 +1,0 @@
-truc{
-	 "name" : "vehicle1", 
-		 "bricks" : [
-{"type":1,"position":{"x":0.0,"y":1.0,"z":0.0}}{"type":2,"position":{"x":0.0,"y":1.0,"z":-0.5}}{"type":3,"position":{"x":0.0,"y":1.0,"z":-1.0},"direction":{"x":0.0,"y":0.0,"z":1.0}}]
-}truc

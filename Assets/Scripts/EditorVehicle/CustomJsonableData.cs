@@ -1,88 +1,96 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
+public enum e_Type
+{
+	Classic,
+	Specific
+}
+
+public interface IJsonable
+{
+	string ToJson();
+}
 
 [System.Serializable]
-public abstract class CustomJsonableData
-{
-	public abstract string ToJson();
-
-	static public T FromJsonString<T>(string _jsonContent)
-	{
-		return JsonUtility.FromJson<T>(_jsonContent);
-	}
-}
-
-public class JsonableBrick : CustomJsonableData
+public class BrickData
 {
 	public e_BrickType type;
-	public Vector3 position;
+	public Vector3 pos;
 
-	public JsonableBrick() { }
-	public JsonableBrick(JsonableBrick _jsonableBrick)
+	public BrickData(e_BrickType _type, Vector3 _pos)
 	{
-		type = _jsonableBrick.type;
-		position = _jsonableBrick.position;
-	}
-
-	public override string ToJson()
-	{
-		return JsonUtility.ToJson(this);
+		type = _type;
+		pos = _pos;
 	}
 }
 
-public class JsonableReactorBrick : JsonableBrick
+[System.Serializable]
+public class ClassicBrickData : BrickData
 {
-	public Vector3 direction;
-
-	public JsonableReactorBrick() { }
-	public JsonableReactorBrick(JsonableBrick _jsonableBrick) : base(_jsonableBrick) { }
+	public ClassicBrickData(e_BrickType _type, Vector3 _pos) 
+		: base(_type, _pos) { }
 }
 
-public class JsonableSwitchBrick : JsonableBrick
+[System.Serializable]
+public class ReactorBrickData : BrickData
 {
-	public KeyCode keyBound;
+	public Vector3 dir;
 
-	public JsonableSwitchBrick() { }
-	public JsonableSwitchBrick(JsonableBrick _jsonableBrick) : base(_jsonableBrick) { }
+	public ReactorBrickData(Vector3 _pos, Vector3 _dir) 
+		: base(e_BrickType.Reactor, _pos)
+	{
+		dir = _dir;
+	}
 }
 
-public class JsonableVehicle : CustomJsonableData
+[System.Serializable]
+public class VehicleData : IJsonable
 {
 	public string name;
-	public List<JsonableBrick> jsonBricks;
+	public List<ClassicBrickData> classicbricksDatas;
+	public List<ReactorBrickData> reactorbricksDatas;
 
-	public JsonableVehicle(string _name)
+	public VehicleData(string _name = "<no_name>")
 	{
 		name = _name;
-		jsonBricks = new List<JsonableBrick>();
+
+		classicbricksDatas = new List<ClassicBrickData>();
+
+		reactorbricksDatas = new List<ReactorBrickData>();
 	}
 
-	public override string ToJson()
+	public void Add(BrickData _brickData)
 	{
-		string jsonContent = string.Format("{{\n\t {0}", CustomJsonTool.JsonProperty("name", name)); // use reflection ?
-
-		jsonContent += string.Format("\t\t {0} : [\n", CustomJsonTool.Quoted("bricks"));
-		foreach (JsonableBrick jsonBrick in jsonBricks)
+		switch (_brickData.type)
 		{
-			jsonContent += jsonBrick.ToJson();
+			case e_BrickType.Core:
+			case e_BrickType.Neutral:
+			case e_BrickType.Circuit:
+				classicbricksDatas.Add(_brickData as ClassicBrickData);
+				break;
+			case e_BrickType.Switch:
+				//classicbricksDatas.Add(_brickData as ClassicBrickData);
+				break;
+			case e_BrickType.Reactor:
+				reactorbricksDatas.Add(_brickData as ReactorBrickData);
+				break;
+			case e_BrickType.None:
+			default:
+				break;
 		}
+	}
 
-		jsonContent += "]\n}";
+	public string ToJson()
+	{
+		return JsonUtility.ToJson(this, true);
+	}
 
-		return jsonContent;
+	// static methods
+	public static VehicleData FromJson(string _json)
+	{
+		return JsonUtility.FromJson<VehicleData>(_json);
 	}
 }
-
-public static class CustomJsonTool
-{
-	internal static string JsonProperty(string _name, string value)
-	{
-		return string.Format("{0} : {1}, \n", Quoted(_name), Quoted(value));
-	}
-
-	internal static string Quoted(string _str)
-	{
-		return string.Format("\"{0}\"", _str);
-	} }

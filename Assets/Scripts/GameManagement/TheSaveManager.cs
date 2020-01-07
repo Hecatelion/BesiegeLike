@@ -8,7 +8,8 @@ public class TheSaveManager : MonoBehaviour
 {
 	private static TheSaveManager instance;
 
-	Dictionary<string, string> savedVehiclesDatas;
+	string dir = "Assets/";
+	Dictionary<string, VehicleData> savedVehiclesDatas;
 
 	private void Start()
 	{
@@ -17,7 +18,7 @@ public class TheSaveManager : MonoBehaviour
 			instance = this;
 			DontDestroyOnLoad(gameObject);
 
-			savedVehiclesDatas = new Dictionary<string, string>();
+			savedVehiclesDatas = new Dictionary<string, VehicleData>();
 		}
 		else
 		{
@@ -25,92 +26,40 @@ public class TheSaveManager : MonoBehaviour
 		}
 	}
 
-	public static void Save(Vehicle _vehicle, string _name)
+	public static void SaveVehicle(Vehicle _vehicle, string _name)
 	{
-		instance.savedVehiclesDatas[_name] = VehicleToJson(_vehicle, _name);
+		instance.savedVehiclesDatas[_name] = _vehicle.GetData(_name);
 
 		// temporary
-		WriteDataFile("Assets/savedVehicles.json");
+		WriteDataFile(_name);
 	}
 
-	public static JsonableVehicle Load(string _name)
+	public static VehicleData LoadVehicle(string _name)
 	{
 		// temporary
-		LoadDataFromFile("Assets/savedVehicles.json");
+		ReadDataFile(_name);
 
-		// from name reads data to get vehicle data
-		return CustomJsonableData.FromJsonString<JsonableVehicle>(instance.savedVehiclesDatas[_name]);
+		return instance.savedVehiclesDatas[_name];
+	}
+	
+	private static void ReadDataFile(string _vehicleName)
+	{
+		StreamReader reader = new StreamReader(instance.dir + _vehicleName + ".json");
+		string str = reader.ReadToEnd();
+		reader.Close();
+
+		var vDat = VehicleData.FromJson(str);
+		instance.savedVehiclesDatas[_vehicleName] = vDat;
 	}
 
-	private static string VehicleToJson(Vehicle vehicle, string _name)
+	private static void WriteDataFile(string _vehicleName)
 	{
-		JsonableVehicle jsonVehicle = new JsonableVehicle(_name);
-
-		foreach (var brick in vehicle.bricks)
-		{
-			if (brick.Type == e_BrickType.None)
-			{
-				Debug.LogError("brick type = None");
-			}
-			else
-			{
-				JsonableBrick jsonableBrick = new JsonableBrick();
-				jsonableBrick.type = brick.Type;
-				jsonableBrick.position = brick.transform.position;
-
-				if (brick.Type == e_BrickType.Reactor)
-				{
-					JsonableReactorBrick jsonableReactor = new JsonableReactorBrick(jsonableBrick);
-					jsonableReactor.direction = (brick as ReactorBrick).Direction;
-					jsonVehicle.jsonBricks.Add(jsonableReactor);
-				}
-				else if (brick.Type == e_BrickType.Switch)
-				{
-					JsonableSwitchBrick jsonableSwitch = new JsonableSwitchBrick(jsonableBrick);
-					jsonableSwitch.keyBound = (brick as SwitchBrick).GetBoundKey();
-					jsonVehicle.jsonBricks.Add(jsonableSwitch);
-				}
-				else // all other brick time
-				{
-					jsonVehicle.jsonBricks.Add(jsonableBrick);
-				}
-			}
-		}
-
-		return jsonVehicle.ToJson();
-	}
-
-	public static void WriteDataFile(string _path)
-	{
-		StreamWriter writer = new StreamWriter(_path, true);
-		string content = "";
-
-		foreach (string vehicleData in instance.savedVehiclesDatas.Values.ToArray())
-		{
-			content += vehicleData;
-		}
-		writer.Write(content);
-
+		StreamWriter writer = new StreamWriter(instance.dir + _vehicleName + ".json");
+		writer.Write(instance.savedVehiclesDatas[_vehicleName].ToJson());
 		writer.Close();
 	}
 
-	public static void LoadDataFromFile(string _path)
-	{
-		// read file
-		StreamReader reader = new StreamReader(_path);
-		string fileContent = reader.ReadToEnd();
+	// read all files
 
-		// get json data
-		LitJson.JsonData jsonData = LitJson.JsonMapper.ToObject(fileContent.Trim());
-		
-		// fill dictionary from data
-		foreach (LitJson.JsonData vehicleJsonData in jsonData)
-		{
-			string vehicleName = (string)vehicleJsonData["name"];
-			string vehicleContent = (string)vehicleJsonData;
-			instance.savedVehiclesDatas[vehicleName] = vehicleContent;
-		}
-
-		_ = 0;
-	}
+	// write all files
 }

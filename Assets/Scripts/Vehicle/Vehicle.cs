@@ -57,8 +57,6 @@ public class Vehicle : MonoBehaviour
 		}
 	}
 
-	
-
 	public void BindControllables()
 	{
 		// remove deleted controllable bricks for controllables
@@ -144,5 +142,37 @@ public class Vehicle : MonoBehaviour
 		}
 
 		rb.velocity = Vector3.zero;
+	}
+
+	// save system
+	public VehicleData GetData(string _name)
+	{
+		VehicleData vehicleData = new VehicleData(_name);
+
+		foreach (var brick in this.bricks)
+		{
+			if (brick.Type == e_BrickType.None)
+			{
+				Debug.LogError("brick type = None");
+			}
+			else
+			{
+				if (brick.Type == e_BrickType.Reactor)
+				{
+					var reactorBrickData = new ReactorBrickData(brick.transform.position, (brick as ReactorBrick).Direction);
+					vehicleData.Add(reactorBrickData);
+				}
+				else if (brick.Type == e_BrickType.Switch)
+				{
+					// vehicleData.Add(new SwitchBrickData(brick.transform.position, (brick as SwitchBrick).GetBoundKey()));
+				}
+				else // all other brick time
+				{
+					vehicleData.Add(new ClassicBrickData(brick.Type, brick.transform.position));
+				}
+			}
+		}
+
+		return vehicleData;
 	}
 }
