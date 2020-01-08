@@ -8,7 +8,7 @@ public class TheSaveManager : MonoBehaviour
 {
 	private static TheSaveManager instance;
 
-	string dir = "Assets/";
+	string dir;
 	Dictionary<string, VehicleData> savedVehiclesDatas;
 
 	private void Start()
@@ -18,7 +18,12 @@ public class TheSaveManager : MonoBehaviour
 			instance = this;
 			DontDestroyOnLoad(gameObject);
 
+			dir = Application.streamingAssetsPath + "/";
+
 			savedVehiclesDatas = new Dictionary<string, VehicleData>();
+
+			// Load all data
+			ReadAllDataFiles();
 		}
 		else
 		{
@@ -26,30 +31,40 @@ public class TheSaveManager : MonoBehaviour
 		}
 	}
 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.S))
+		{
+			WriteAllDataFiles();
+		}
+		if (Input.GetKeyDown(KeyCode.L))
+		{
+			ReadAllDataFiles();
+		}
+	}
+
 	public static void SaveVehicle(Vehicle _vehicle, string _name)
 	{
 		instance.savedVehiclesDatas[_name] = _vehicle.GetData(_name);
 
-		// temporary
+		// save on data file
 		WriteDataFile(_name);
 	}
 
 	public static VehicleData LoadVehicle(string _name)
 	{
-		// temporary
-		ReadDataFile(_name);
-
 		return instance.savedVehiclesDatas[_name];
 	}
 	
-	private static void ReadDataFile(string _vehicleName)
+	private static void ReadDataFile(string _fileName)
 	{
-		StreamReader reader = new StreamReader(instance.dir + _vehicleName + ".json");
+		StreamReader reader = new StreamReader(instance.dir + _fileName);
 		string str = reader.ReadToEnd();
 		reader.Close();
 
-		var vDat = VehicleData.FromJson(str);
-		instance.savedVehiclesDatas[_vehicleName] = vDat;
+		string vehicleName = _fileName.Split('.')[0];
+		var vehicleData = VehicleData.FromJson(str);
+		instance.savedVehiclesDatas[vehicleName] = vehicleData;
 	}
 
 	private static void WriteDataFile(string _vehicleName)
@@ -59,7 +74,28 @@ public class TheSaveManager : MonoBehaviour
 		writer.Close();
 	}
 
-	// read all files
+	// read all vehicle data files
+	public static void WriteAllDataFiles()
+	{
+		foreach (string vehicleName in instance.savedVehiclesDatas.Keys)
+		{
+			WriteDataFile(vehicleName);
+		}
+	}
 
-	// write all files
+	// write all vehicle data files
+	public static void ReadAllDataFiles()
+	{
+		string[] filesInDir = Directory.GetFiles(instance.dir);
+
+		string[] dataFilesInDir = (from file in filesInDir
+								  where file.Contains(".json") && !file.Contains(".meta")
+								  select file).ToArray();
+
+		foreach (string fileName in dataFilesInDir)
+		{
+			string trimedFileName = fileName.Remove(0, instance.dir.Length);
+			ReadDataFile(trimedFileName);
+		}
+	}
 }

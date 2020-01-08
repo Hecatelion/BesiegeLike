@@ -123,7 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232249d18e9978c45bb2fac3824a8f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conductiveWiresGO: {fileID: 0}
+  conductiveWiresGO: {fileID: 8982494678981355772, guid: 92d379a17b91f4f4e91bc949c8a42e7f,
+    type: 3}
   wires: {fileID: 0}
   isUsable: 1
   isConductingPower: 0
@@ -139,6 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91aa15d70baa7814a95072b856bfcff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isON: 0
   matOFF: {fileID: 2100000, guid: 4e63d01792c8fd343a89faa47504b2bc, type: 2}
   matON: {fileID: 2100000, guid: bb0f3066e94a8644d9eb5c5ec011eb90, type: 2}

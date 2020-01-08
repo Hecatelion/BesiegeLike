@@ -164,7 +164,8 @@ public class Vehicle : MonoBehaviour
 				}
 				else if (brick.Type == e_BrickType.Switch)
 				{
-					// vehicleData.Add(new SwitchBrickData(brick.transform.position, (brick as SwitchBrick).GetBoundKey()));
+					var switchBrickData = new SwitchBrickData(brick.transform.position, (brick as SwitchBrick).GetBoundKey());
+					vehicleData.Add(switchBrickData);
 				}
 				else // all other brick time
 				{

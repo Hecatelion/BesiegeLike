@@ -108,11 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ffa227cbe2d734885f46f6b765b243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conductiveWiresGO: {fileID: 0}
+  conductiveWiresGO: {fileID: 8982494678981355772, guid: 92d379a17b91f4f4e91bc949c8a42e7f,
+    type: 3}
   wires: {fileID: 0}
-  pointBreak: 0
   isReceivingPower: 0
-  power: 10
+  power: 3
 --- !u!54 &1859025644514016280
 Rigidbody:
   m_ObjectHideFlags: 0

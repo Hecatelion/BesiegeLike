@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.IO;
+using UnityEngine.UI;
 
 public class Editor : MonoBehaviour
 {
@@ -10,6 +8,7 @@ public class Editor : MonoBehaviour
 	Camera usedCamera;
 
 	[Header("Vehicle")]
+	[SerializeField] InputField nameField;
 	[SerializeField] Vehicle vehicle;
 	[SerializeField] GameObject emptyVehicleGO;
 
@@ -97,11 +96,12 @@ public class Editor : MonoBehaviour
 		}
 	}
 
-	void CreateNewVehicle(VehicleData _vehicleData) // from JsonableVehicle recreate vehicle (using brick instantiation)
+	// from JsonableVehicle recreate vehicle (using brick instantiation)
+	IEnumerator AddBricksFromData(VehicleData _vehicleData)
 	{
-		CreateNewVehicle();
+		yield return new WaitForSeconds(0.1f);
 
-		foreach (var brickData in _vehicleData.classicbricksDatas)
+		foreach (var brickData in _vehicleData.classicBricksDatas)
 		{
 			switch (brickData.type)
 			{
@@ -119,12 +119,32 @@ public class Editor : MonoBehaviour
 				default:
 					break;
 			}
+
+			yield return new WaitForSeconds(0.05f);
 		}
 
-		foreach (var brickData in _vehicleData.reactorbricksDatas)
+		foreach (ReactorBrickData brickData in _vehicleData.reactorBricksDatas)
 		{
 			AddReactorBrick(brickData.pos, brickData.dir);
+
+			yield return new WaitForSeconds(0.05f);
 		}
+
+		foreach (SwitchBrickData brickData in _vehicleData.switchBricksDatas)
+		{
+			AddSwitchBrick(brickData.pos, brickData.keyBound);
+
+			yield return new WaitForSeconds(0.05f);
+		}
+
+		yield return null;
+	}
+	void CreateNewVehicle(VehicleData _vehicleData)
+	{
+		CreateNewVehicle();
+
+		// need to delay a bit brick instantiation to let empty vehicle being instantiated for real at the end of the current frame
+		StartCoroutine(AddBricksFromData(_vehicleData));
 	}
 
 	// ------------------------------------------
@@ -201,12 +221,14 @@ public class Editor : MonoBehaviour
 
 	void AddSwitchBrick(Vector3 _pos, KeyCode _keyBound)
 	{
-		// Instantiate a switch brick and link it to vehicle
+		// instantiate a switch brick
 		GameObject createdSwitchBrickGO = InstantiateBrick(switchBrickGO, vehicle, _pos);
-		vehicle.GetComponent<Vehicle>().controllables.Add(createdSwitchBrickGO.GetComponent<IControllable>());
 
+		// link it to vehicle and vice-verse
+		vehicle.GetComponent<Vehicle>().controllables.Add(createdSwitchBrickGO.GetComponent<IControllable>());
 		createdSwitchBrickGO.GetComponent<SwitchBrick>().linkedVehicle = vehicle;
 
+		// init its bind
 		createdSwitchBrickGO.GetComponent<SwitchBrick>().Bind(_keyBound);
 	}
 
@@ -286,11 +308,11 @@ public class Editor : MonoBehaviour
 
 	public void UI_Save()
 	{
-		TheSaveManager.SaveVehicle(vehicle, "SpaceShip"); // player must chose name
+		TheSaveManager.SaveVehicle(vehicle, nameField.text);
 	}
 
 	public void UI_Load()
 	{
-		CreateNewVehicle(TheSaveManager.LoadVehicle("SpaceShip")); // player must chose name
+		CreateNewVehicle(TheSaveManager.LoadVehicle(nameField.text));
 	}
 }

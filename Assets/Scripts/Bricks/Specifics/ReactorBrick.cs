@@ -29,16 +29,6 @@ public class ReactorBrick : Receiver, IInteractible
 		}
 	}
 
-	// direction in which the ship will go
-	/*public Vector3 GetDirection()
-	{
-		return transform.forward;
-	}
-	public void SetDirection(Vector3 _dir)
-	{
-		transform.forward = _dir;
-	}*/
-
 	public void SetVehicle(Rigidbody _rb)
 	{
 		rbVehicle = _rb;

@@ -10,14 +10,11 @@ public class Brick : MonoBehaviour
 	public e_BrickType Type { get => type; }
 
 	private static float detachingForce = 400;
-	[HideInInspector] public GameObject conductiveWiresGO;
+	[SerializeField] public GameObject conductiveWiresGO;
 	[HideInInspector] public Wires wires;
 
 	virtual protected void Start()
 	{
-		// find wire GO
-		conductiveWiresGO = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Bricks/Wires.prefab", typeof(GameObject));
-
 		// Instantiate Conductive Wires Object and store its script
 		GameObject temp = Instantiate(conductiveWiresGO, transform);
 		wires = temp.GetComponent<Wires>();

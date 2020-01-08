@@ -47,19 +47,32 @@ public class ReactorBrickData : BrickData
 }
 
 [System.Serializable]
+public class SwitchBrickData : BrickData
+{
+	public KeyCode keyBound;
+
+	public SwitchBrickData(Vector3 _pos, KeyCode _keyBound) 
+		: base(e_BrickType.Switch, _pos)
+	{
+		keyBound = _keyBound;
+	}
+}
+
+[System.Serializable]
 public class VehicleData : IJsonable
 {
 	public string name;
-	public List<ClassicBrickData> classicbricksDatas;
-	public List<ReactorBrickData> reactorbricksDatas;
+	public List<ClassicBrickData> classicBricksDatas;
+	public List<ReactorBrickData> reactorBricksDatas;
+	public List<SwitchBrickData> switchBricksDatas;
 
 	public VehicleData(string _name = "<no_name>")
 	{
 		name = _name;
 
-		classicbricksDatas = new List<ClassicBrickData>();
-
-		reactorbricksDatas = new List<ReactorBrickData>();
+		classicBricksDatas = new List<ClassicBrickData>();
+		reactorBricksDatas = new List<ReactorBrickData>();
+		switchBricksDatas = new List<SwitchBrickData>();
 	}
 
 	public void Add(BrickData _brickData)
@@ -69,13 +82,13 @@ public class VehicleData : IJsonable
 			case e_BrickType.Core:
 			case e_BrickType.Neutral:
 			case e_BrickType.Circuit:
-				classicbricksDatas.Add(_brickData as ClassicBrickData);
+				classicBricksDatas.Add(_brickData as ClassicBrickData);
 				break;
 			case e_BrickType.Switch:
-				//classicbricksDatas.Add(_brickData as ClassicBrickData);
+				switchBricksDatas.Add(_brickData as SwitchBrickData);
 				break;
 			case e_BrickType.Reactor:
-				reactorbricksDatas.Add(_brickData as ReactorBrickData);
+				reactorBricksDatas.Add(_brickData as ReactorBrickData);
 				break;
 			case e_BrickType.None:
 			default:

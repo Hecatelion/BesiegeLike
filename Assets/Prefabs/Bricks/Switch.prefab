@@ -130,7 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df52b261c702e6145b6fd1d7df931ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conductiveWiresGO: {fileID: 0}
+  conductiveWiresGO: {fileID: 8982494678981355772, guid: 92d379a17b91f4f4e91bc949c8a42e7f,
+    type: 3}
   wires: {fileID: 0}
   isUsable: 1
   isConductingPower: 0
