@@ -10,8 +10,8 @@ public class Conductor : Brick, IActivable
 	public bool isConductingPower;
 
 	// used to switch OFF if not electrically powered for some frames
-	int nbFrameBeforeOFF = 2;	// from 1 to inf, can't be 0
-	int nbFrameLeft = int.MaxValue;
+	public int nbFrameBeforeOFF = 2;	// from 1 to inf, can't be 0
+	public int nbFrameLeft = int.MaxValue;
 
 	protected override void Start()
 	{
