@@ -1,10 +1,9 @@
-
+- read asset bundle scene
+- build it
+- anglular drag
+- rebuild exe
 
 [KNOWN BUGS]
-
-- probably in Controllable : after activating some switches, 
-not or linked, all start blinking
-
 - circuit instantiation bug : 
 IF (circuit1 connected to core && 
     circuit2 connected to reactor && 
