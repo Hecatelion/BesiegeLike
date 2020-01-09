@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Editor : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class Editor : MonoBehaviour
 	Camera usedCamera;
 
 	[Header("Vehicle")]
+	[SerializeField] InputField nameField;
 	[SerializeField] Vehicle vehicle;
 	[SerializeField] GameObject emptyVehicleGO;
 
@@ -77,22 +77,74 @@ public class Editor : MonoBehaviour
 	//					vehicle 
 	// ------------------------------------------
 
-	void CreateNewVehicle(GameObject _vehicleGOToCreate = null)
+	void CreateNewVehicle()
 	{
 		// destroy current vehicle
 		if (vehicle) Destroy(vehicle.gameObject);
 
 		// create the new one
-		GameObject vehicleToCreate = _vehicleGOToCreate ?? emptyVehicleGO;
+		GameObject vehicleToCreate = emptyVehicleGO;
 		vehicle = Instantiate(vehicleToCreate).GetComponent<Vehicle>();
 
 		// use created vehicle camera
 		SwitchCamera(vehicle.transform.GetComponentInChildren<Camera>());
+
+		// allow player to play level
+		if (TheGameManager.NextLevel != "None")
+		{
+			playButtonGO.SetActive(true);
+		}
 	}
 
-	void CreateNewVehicle(JsonableVehicle _jsonableVehicle)
+	// from JsonableVehicle recreate vehicle (using brick instantiation)
+	IEnumerator AddBricksFromData(VehicleData _vehicleData)
 	{
-		// from JsonableVehicle recreate vehicle (using brick instantiation)
+		yield return new WaitForSeconds(0.1f);
+
+		foreach (var brickData in _vehicleData.classicBricksDatas)
+		{
+			switch (brickData.type)
+			{
+				case e_BrickType.Core:
+					// nothing 
+					break;
+				case e_BrickType.Neutral:
+					AddNeutralBrick(brickData.pos);
+					break;
+				case e_BrickType.Circuit:
+					AddCircuitBrick(brickData.pos);
+					break;
+
+				case e_BrickType.None:
+				default:
+					break;
+			}
+
+			yield return new WaitForSeconds(0.05f);
+		}
+
+		foreach (ReactorBrickData brickData in _vehicleData.reactorBricksDatas)
+		{
+			AddReactorBrick(brickData.pos, brickData.dir);
+
+			yield return new WaitForSeconds(0.05f);
+		}
+
+		foreach (SwitchBrickData brickData in _vehicleData.switchBricksDatas)
+		{
+			AddSwitchBrick(brickData.pos, brickData.keyBound);
+
+			yield return new WaitForSeconds(0.05f);
+		}
+
+		yield return null;
+	}
+	void CreateNewVehicle(VehicleData _vehicleData)
+	{
+		CreateNewVehicle();
+
+		// need to delay a bit brick instantiation to let empty vehicle being instantiated for real at the end of the current frame
+		StartCoroutine(AddBricksFromData(_vehicleData));
 	}
 
 	// ------------------------------------------
@@ -105,7 +157,8 @@ public class Editor : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Physics.Raycast(ray, out _hit, float.MaxValue, layerBrick); // using layerBrick to ignore wires' colliders
 
-		return _hit.transform && _hit.transform.GetComponent<Brick>() != null && vehicle.bricks.Contains(_hit.transform.GetComponent<Brick>());
+		return _hit.transform && _hit.transform.GetComponent<Brick>() != null 
+			&& vehicle.bricks.Contains(_hit.transform.GetComponent<Brick>());
 	}
 
 	// ------------------------------------------
@@ -168,12 +221,14 @@ public class Editor : MonoBehaviour
 
 	void AddSwitchBrick(Vector3 _pos, KeyCode _keyBound)
 	{
-		// Instantiate a switch brick and link it to vehicle
+		// instantiate a switch brick
 		GameObject createdSwitchBrickGO = InstantiateBrick(switchBrickGO, vehicle, _pos);
-		vehicle.GetComponent<Vehicle>().controllables.Add(createdSwitchBrickGO.GetComponent<IControllable>());
 
+		// link it to vehicle and vice-verse
+		vehicle.GetComponent<Vehicle>().controllables.Add(createdSwitchBrickGO.GetComponent<IControllable>());
 		createdSwitchBrickGO.GetComponent<SwitchBrick>().linkedVehicle = vehicle;
 
+		// init its bind
 		createdSwitchBrickGO.GetComponent<SwitchBrick>().Bind(_keyBound);
 	}
 
@@ -249,21 +304,15 @@ public class Editor : MonoBehaviour
 	public void UI_NewVehicle()
 	{
 		CreateNewVehicle();
-		
-		// allow player to play level
-		if (TheGameManager.NextLevel != "None")
-		{
-			playButtonGO.SetActive(true);
-		}
 	}
 
 	public void UI_Save()
 	{
-		TheSaveManager.Save(vehicle, "vehicle1"); // player must chose name
+		TheSaveManager.SaveVehicle(vehicle, nameField.text);
 	}
 
 	public void UI_Load()
 	{
-		CreateNewVehicle(TheSaveManager.Load("vehicle1")); // player must chose name
+		CreateNewVehicle(TheSaveManager.LoadVehicle(nameField.text));
 	}
 }

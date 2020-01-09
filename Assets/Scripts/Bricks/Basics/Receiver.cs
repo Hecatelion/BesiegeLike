@@ -5,7 +5,6 @@ using UnityEditor;
 
 public class Receiver : Brick, IActivable
 {
-	[SerializeField] bool pointBreak = false;
 	public bool isReceivingPower = false;
 	
 	GraphicsActivable activableGraph;
