@@ -1,0 +1,7 @@
+[KNOWN BUGS]
+- circuit instantiation bug : 
+IF (circuit1 connected to core && 
+    circuit2 connected to reactor && 
+    circuit1 !connected to circuit2)
+THEN 
+    reactor is receving power for 1 frame

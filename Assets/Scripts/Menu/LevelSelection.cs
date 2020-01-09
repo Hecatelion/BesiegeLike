@@ -7,7 +7,18 @@ public class LevelSelection : MonoBehaviour
 {
     public void UI_GoToLevel(int _level)
 	{
-		TheCustomSceneManager.LoadScene_SetNextLevel("Editor", 0.0f, "Level" + _level.ToString());
+		string levelName = "None";
+
+		if (_level > 1)
+		{
+			levelName = TheDLC.Level2Path;
+		}
+		else
+		{
+			levelName = "Level" + _level.ToString();
+		}
+
+		TheCustomSceneManager.LoadScene_SetNextLevel("Editor", 0.0f, levelName);
 	}
 
 	public void UI_GoToMenu()

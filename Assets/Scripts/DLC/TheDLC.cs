@@ -8,7 +8,11 @@ public class TheDLC : MonoBehaviour
 {
 	private static TheDLC instance;
 
-	Scene level2;
+	string level2Path;
+	public static string Level2Path
+	{
+		get => instance.level2Path;
+	}
 
 	private void Start()
 	{
@@ -27,9 +31,17 @@ public class TheDLC : MonoBehaviour
 
 	void ReadBundleContent()
 	{
-		//if ( Application.persistentDataPath)
+		var dlcBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/dlc");
+		if (dlcBundle)
 		{
-
+			string[] scenePath = dlcBundle.GetAllScenePaths();
+			foreach (string path in scenePath)
+			{
+				if (path.Contains("Level2"))
+				{
+					level2Path = path;
+				}
+			}
 		}
 	}
 }
